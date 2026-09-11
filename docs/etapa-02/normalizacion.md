@@ -41,3 +41,16 @@ Se parte del esquema relacional obtenido tras la conversión directa del Diagram
   * En **`PROMOCION`**: Existen atributos no clave que determinan otros atributos (`tipoPromocion` $\rightarrow$ `Valor`), generando una dependencia transitiva.
   * En **`TIENE`**: Falta definir la clave subrogada y el factor de equivalencia (`conversión`) para las unidades de medida.
   * Estandarización final de los nombres de relaciones a entidades definitivas del dominio.
+
+## Paso a Tercera Forma Normal (3FN)
+Regla: Cumplir con 2FN y eliminar las dependencias funcionales transitivas (ningún atributo no clave debe depender de otro atributo no clave: $X \rightarrow Y \rightarrow Z$).
+Acciones realizadas:
+Depuración de Promocion: Se eliminan los atributos transitivos tipoPromocion y Valor, dejando únicamente los datos directos de la promoción (descripcion, fecha_inicio, fecha_fin).
+Estructuración de Producto-Unidad: La relación TIENE se formaliza como Producto-Unidad, asignándole su clave primaria subrogada id_productoUnidad e incorporando el atributo conversión.
+Estandarización formal de nombres: Se formalizan las tablas intermedias y entidades al modelo final del negocio (Detalle-Venta, Producto-Unidad, Categoria-Promocion).
+
+### Esquema Resultante en 3FN (Modelo Final)
+![Tercera forma normal](./imagenes/erdplus%20imagen%203.png "Tercera forma Normal")
+
+Cumple 3FN: El 100% de las tablas del esquema cumple con 1FN, 2FN y 3FN. No existen grupos repetitivos, dependencias parciales ni dependencias transitivas, logrando un modelo relacional íntegro, consistente y libre de redundancias.
+

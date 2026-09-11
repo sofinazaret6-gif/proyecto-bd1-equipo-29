@@ -26,3 +26,18 @@ Se parte del esquema relacional obtenido tras la conversión directa del Diagram
 * **Pendiente para 2FN (Dependencias parciales):**
   * En **`ASOCIA`**: Al existir la dependencia funcional $id\_venta \rightarrow dni\_Cliente$, la clave compuesta `(fk_CLIENTE, fk_VENTA)` contiene una dependencia funcional parcial (el cliente depende únicamente de la venta y no de la combinación de ambos).
 
+## Paso a Segunda Forma Normal (2FN)
+
+* **Regla:** Cumplir con 1FN y eliminar las **dependencias funcionales parciales** (todo atributo no clave debe depender de la totalidad de la clave primaria en aquellas tablas con clave compuesta).
+* **Acciones realizadas:**
+  1. **Resolución de `ASOCIA` (Cliente - Venta):** Dado que cada venta pertenece a un único cliente ($id\_venta \rightarrow dni\_Cliente$), la tabla intermedia generaba una dependencia parcial sobre su clave compuesta. Se elimina la tabla `ASOCIA` y se incorpora la clave foránea `fk_CLIENTE` directamente en la tabla `VENTA` para representar fielmente la relación $1:N$.
+
+### Esquema Resultante en 2FN
+
+![Segunda forma normal](./imagenes/erdplus%20imagen%202.png "Segunda forma Normal")
+
+* **Cumple 2FN:** Todas las tablas con clave compuesta (`INCLUYE`, `PARTICIPA_EN`, `TIENE`) tienen atributos que dependen de la totalidad de dicha clave. Las tablas con clave simple cumplen 2FN por definición.
+* **Pendiente para 3FN (Dependencias transitivas y depuración):**
+  * En **`PROMOCION`**: Existen atributos no clave que determinan otros atributos (`tipoPromocion` $\rightarrow$ `Valor`), generando una dependencia transitiva.
+  * En **`TIENE`**: Falta definir la clave subrogada y el factor de equivalencia (`conversión`) para las unidades de medida.
+  * Estandarización final de los nombres de relaciones a entidades definitivas del dominio.

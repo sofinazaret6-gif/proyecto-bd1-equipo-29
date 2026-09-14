@@ -9,7 +9,7 @@ Se parte del esquema relacional obtenido tras la conversión directa del Diagram
   * **En `VENTA`:** Contiene una única clave foránea `fk_MEDIO_DE_PAGO`. Impide registrar pagos mixtos (ej. abonar una parte en efectivo y otra con débito) a menos que se dupliquen ventas o se agreguen columnas repetitivas, violando la 1FN.
   * **En `ASOCIA`:** Se mapeó el rombo de relación entre cliente y venta como una tabla intermedia con clave compuesta `(fk_CLIENTE, fk_VENTA)`, cuando en la realidad del negocio una venta pertenece a un único cliente ($id\_venta \rightarrow dni\_Cliente$).
 
-![Modelo inicial](./imagenes/erdplus%20imagen%200.png "Modelo inicial")
+![Modelo inicial](../../imagenes/erdplus%20imagen%200.png "Modelo inicial")
 
 ## Paso a Primera Forma Normal (1FN)
 
@@ -20,7 +20,7 @@ Se parte del esquema relacional obtenido tras la conversión directa del Diagram
 
 ### Esquema Resultante en 1FN
 
-![Primera forma normal](./imagenes/erdplus%20imagen%201.png "Primera forma Normal")
+![Primera forma normal](../../imagenes/erdplus%20imagen%201.png "Primera forma Normal")
 
 * **Cumple 1FN:** Todas las tablas poseen claves primarias definidas, valores atómicos y se eliminó la imposibilidad de registrar historiales de inventario y pagos múltiples.
 * **Pendiente para 2FN (Dependencias parciales):**
@@ -34,7 +34,7 @@ Se parte del esquema relacional obtenido tras la conversión directa del Diagram
 
 ### Esquema Resultante en 2FN
 
-![Segunda forma normal](./imagenes/erdplus%20imagen%202.png "Segunda forma Normal")
+![Segunda forma normal](../../imagenes/erdplus%20imagen%202.png "Segunda forma Normal")
 
 * **Cumple 2FN:** Todas las tablas con clave compuesta (`INCLUYE`, `PARTICIPA_EN`, `TIENE`) tienen atributos que dependen de la totalidad de dicha clave. Las tablas con clave simple cumplen 2FN por definición.
 * **Pendiente para 3FN (Dependencias transitivas y depuración):**
@@ -50,7 +50,7 @@ Estructuración de Producto-Unidad: La relación TIENE se formaliza como Product
 Estandarización formal de nombres: Se formalizan las tablas intermedias y entidades al modelo final del negocio (Detalle-Venta, Producto-Unidad, Categoria-Promocion).
 
 ### Esquema Resultante en 3FN (Modelo Final)
-![Tercera forma normal](./imagenes/erdplus%20imagen%203.png "Tercera forma Normal")
+![Tercera forma normal](../../imagenes/erdplus%20imagen%203.png "Tercera forma Normal")
 
 Cumple 3FN: El 100% de las tablas del esquema cumple con 1FN, 2FN y 3FN. No existen grupos repetitivos, dependencias parciales ni dependencias transitivas, logrando un modelo relacional íntegro, consistente y libre de redundancias.
 

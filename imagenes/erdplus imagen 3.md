@@ -105,4 +105,3 @@ erDiagram
         int id_categoria FK
         int id_promocion FK
     }
-```

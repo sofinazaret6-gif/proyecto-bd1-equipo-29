@@ -2,9 +2,8 @@
 erDiagram
     EMPLEADO ||--o{ VENTA : registra
     CLIENTE ||--o{ ASOCIA : asocia
-    VENTA ||--o{ ASOCIA : asocia
-    VENTA ||--o{ VENTA_MEDIO_PAGO : se_abona_con
-    MEDIO_DE_PAGO ||--o{ VENTA_MEDIO_PAGO : incluye
+    VENTA ||--o{ ASOCIA : contiene
+    VENTA ||--o{ MEDIO_DE_PAGO : se_abona_con
     VENTA ||--|{ INCLUYE : contiene
     PRODUCTO ||--o{ INCLUYE : compone
     CATEGORIA ||--o{ PRODUCTO : clasifica
@@ -46,6 +45,8 @@ erDiagram
         int id_stock PK
         int stockMin
         int cantActual
+        int id_producto FK
+        int id_movimientoStock FK
     }
 
     PRODUCTO {
@@ -53,14 +54,11 @@ erDiagram
         varchar nombreProd
         numeric precioActual
         int id_categoria FK
-        int id_stock FK
     }
 
     TIENE {
-        int id_productoUnitario PK
-        numeric conversion
-        int id_producto FK
-        int id_unidadMedida FK
+        int id_producto PK, FK
+        int id_unidadMedida PK, FK
     }
 
     UNIDAD_MEDIDA {
@@ -74,7 +72,6 @@ erDiagram
         date fecha_Hora
         varchar tipoMovimiento
         int cantidad
-        int id_stock FK
     }
 
     VENTA {
@@ -83,6 +80,7 @@ erDiagram
         numeric subtotal
         time hora
         int dni_Empleado FK
+        int id_medioPago FK
     }
 
     ASOCIA {
@@ -94,8 +92,7 @@ erDiagram
         int id_venta PK, FK
         int id_producto PK, FK
         int cantidad
-        numeric precio_unitario
-        varchar nombreProd
+        numeric precioUnitario
     }
 
     MEDIO_DE_PAGO {
@@ -103,19 +100,8 @@ erDiagram
         varchar descripcion
     }
 
-    VENTA_MEDIO_PAGO {
-        int id_ventaMedioPago PK
-        numeric importe
-        int id_venta FK
-        int id_medioPago FK
-    }
-
     PARTICIPA_EN {
         int id_categoria PK, FK
         int id_Promocion PK, FK
     }
-
-
-
-
     

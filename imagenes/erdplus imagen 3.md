@@ -1,3 +1,4 @@
+```mermaid
 erDiagram
     EMPLEADO ||--o{ VENTA : registra
     CLIENTE ||--o{ VENTA : asocia
@@ -104,3 +105,4 @@ erDiagram
         int id_categoria FK
         int id_promocion FK
     }
+```

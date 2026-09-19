@@ -111,7 +111,12 @@ erDiagram
     }
 
     PARTICIPA_EN {
-        int id_categoria PK, FK
-        int id_Promocion PK, FK
+        int id_categoria PK
+        int id_Promocion PK
     }
+
+
+
+
+
     ```

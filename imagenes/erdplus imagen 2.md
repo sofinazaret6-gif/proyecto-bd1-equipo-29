@@ -1,101 +1,101 @@
 ```mermaid
-flowchart TD
-    CLIENTE["`**CLIENTE**
-    ---
-    **PK** dni_cliente : int
-    nombreCliente : varchar
-    apellido : varchar`"]
+erDiagram
+    CLIENTE {
+        int dni_cliente PK
+        varchar nombreCliente
+        varchar apellido
+    }
 
-    EMPLEADO["`**EMPLEADO**
-    ---
-    **PK** dni_empleado : int
-    nombreEmpleado : varchar
-    apellidoEmpleado : varchar
-    turnoEmpleado : varchar`"]
+    EMPLEADO {
+        int dni_empleado PK
+        varchar nombreEmpleado
+        varchar apellidoEmpleado
+        varchar turnoEmpleado
+    }
 
-    PROMOCION["`**PROMOCION**
-    ---
-    **PK** id_promocion : int
-    descripcion : varchar
-    tipoPromocion : int
-    valor : numeric
-    fechaInicio : date
-    fechaFin : date`"]
+    PROMOCION {
+        int id_promocion PK
+        varchar descripcion
+        int tipoPromocion
+        numeric valor
+        date fechaInicio
+        date fechaFin
+    }
 
-    CATEGORIA["`**CATEGORIA**
-    ---
-    **PK** id_categoria : int
-    descripcion : varchar`"]
+    CATEGORIA {
+        int id_categoria PK
+        varchar descripcion
+    }
 
-    STOCK["`**STOCK**
-    ---
-    **PK** id_stock : int
-    stockMin : int
-    cantiActual : int`"]
+    STOCK {
+        int id_stock PK
+        int stockMin
+        int cantiActual
+    }
 
-    PRODUCTO["`**PRODUCTO**
-    ---
-    **PK** id_producto : int
-    nombreProd : varchar
-    precioActual : numeric
-    **FK** id_categoria : int
-    **FK** id_stock : int`"]
+    PRODUCTO {
+        int id_producto PK
+        varchar nombreProd
+        numeric precioActual
+        int id_categoria FK
+        int id_stock FK
+    }
 
-    TIENE["`**TIENE**
-    ---
-    **PK** id_productoUnitario : int
-    conversion : numeric
-    id_unidadMedida : int
-    descripcion_unidad : varchar
-    abreviatura : char
-    **FK** id_producto : int`"]
+    TIENE {
+        int id_productoUnitario PK
+        numeric conversion
+        int id_unidadMedida
+        varchar descripcion_unidad
+        char abreviatura
+        int id_producto FK
+    }
 
-    MOVIMIENTO_STOCK["`**MOVIMIENTO_STOCK**
-    ---
-    **PK** id_movimientoStock : int
-    fehca_Hora : date
-    tipoMovimiento : varchar
-    cantidad : int
-    **FK** id_stock : int`"]
+    MOVIMIENTO_STOCK {
+        int id_movimientoStock PK
+        date fehca_Hora
+        varchar tipoMovimiento
+        int cantidad
+        int id_stock FK
+    }
 
-    VENTA["`**VENTA**
-    ---
-    **PK** id_venta : int
-    fecha : date
-    subTotal : numeric
-    hora : time
-    **FK** dni_empleado : int
-    **FK** dni_cliente : int`"]
+    VENTA {
+        int id_venta PK
+        date fecha
+        numeric subTotal
+        time hora
+        int dni_empleado FK
+        int dni_cliente FK
+    }
 
-    INCLUYE["`**INCLUYE**
-    ---
-    **PK, FK** id_venta : int
-    **PK, FK** id_producto : int
-    cantidad : int
-    precioUnitario : numeric`"]
+    INCLUYE {
+        int id_venta PK, FK
+        int id_producto PK, FK
+        int cantidad
+        numeric precioUnitario
+    }
 
-    VENTA_MODO_PAGO["`**VENTA_MODO_PAGO**
-    ---
-    **PK** id_ventaMedioPago : int
-    id_medioPago : int
-    descripcion_medioPago : varchar
-    importe : numeric
-    **FK** id_venta : int`"]
+    VENTA_MODO_PAGO {
+        int id_ventaMedioPago PK
+        int id_medioPago
+        varchar descripcion_medioPago
+        numeric importe
+        int id_venta FK
+    }
 
-    PARTICIPA_EN["`**PARTICIPA_EN**
-    ---
-    **PK, FK** id_promocion : int
-    **PK, FK** id_categoria : int`"]
+    PARTICIPA_EN {
+        int id_promocion PK, FK
+        int id_categoria PK, FK
+    }
 
-    EMPLEADO ---|registra| VENTA
-    CLIENTE ---|asocia| VENTA
-    VENTA ---|se_abona_con| VENTA_MODO_PAGO
-    VENTA ---|contiene| INCLUYE
-    PRODUCTO ---|compone| INCLUYE
-    CATEGORIA ---|clasifica| PRODUCTO
-    STOCK ---|posee| PRODUCTO
-    STOCK ---|registra| MOVIMIENTO_STOCK
-    CATEGORIA ---|aplica| PARTICIPA_EN
-    PROMOCION ---|incluye| PARTICIPA_EN
-    PRODUCTO ---|presenta| TIENE
+    EMPLEADO ||--o{ VENTA : registra
+    CLIENTE }|--o{ VENTA : asocia
+    VENTA ||--o{ VENTA_MODO_PAGO : se_abona_con
+    VENTA }o--|{ INCLUYE : contiene
+    PRODUCTO }|--o{ INCLUYE : compone
+    CATEGORIA ||--o{ PRODUCTO : clasifica
+    STOCK ||--|| PRODUCTO : posee
+    STOCK ||--|{ MOVIMIENTO_STOCK : registra
+    CATEGORIA }|--o{ PARTICIPA_EN : aplica
+    PROMOCION }o--|{ PARTICIPA_EN : incluye
+    PRODUCTO }o--|{ TIENE : presenta
 ```

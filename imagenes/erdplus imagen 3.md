@@ -1,4 +1,4 @@
-
+```mermaid
 erDiagram
     EMPLEADO ||--o{ VENTA : registra
     CLIENTE ||--o{ VENTA : asocia

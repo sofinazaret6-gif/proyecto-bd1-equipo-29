@@ -328,7 +328,7 @@ proyecto-bd1-equipo-29/
 │   │   ├── 📄 Introduccion Gestion de Ventas...md  # Planteo del negocio y contexto general
 │   │   ├── 📄 justificacion_Proyecto.md            # Análisis de dominio, economía y arquitectura
 │   │   ├── 📄 alcance_del_sistema.md               # Alcance funcional y exclusiones del sistema
-│   │   ├── 📄 Reglas de Negocio.md                 # Reglas de negocio 01 a 05
+│   │   ├── 📄 Reglas de Negocio 1-5.md             # Reglas de negocio 01 a 05
 │   │   └── 📄 Reglas de Negocio 6-10.md            # Reglas de negocio 06 a 10
 │   │
 │   ├── 📁 etapa-02/                                # Modelado y Normalización

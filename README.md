@@ -60,22 +60,19 @@ Esta sección reúne los accesos directos a todos los entregables requeridos par
 | **DER Definitivo (Chen)** | [`docs/etapa-02/Der/DerDefinitivo.jpeg`](docs/etapa-02/Der/DerDefinitivo.jpeg) | Modelo conceptual consolidado con stock, unidades y promociones. |
 | **Memoria de Normalización** | [`docs/etapa-02/normalizacion.md`](docs/etapa-02/normalizacion.md) | Pasaje formal de 0FN a 1FN, 2FN y 3FN con justificación de dependencias. |
 | **Diagramas Relacionales** | [`imagenes/`](imagenes/) | Esquemas de cada forma normal en imágenes y diagramas Mermaid. |
-| **Aportes Individuales** | [Ver tabla de integrantes abajo](#-integrantes-del-equipo-29) | Informes individuales de los 5 integrantes con reflexiones y commits. |
 | **Módulos SQL (DDL / DML)** | [`sql/`](sql/) | Estructura de carpetas configurada para las etapas 03, 04 y 05. |
 
 ---
 
 ## 👥 Integrantes del Equipo 29
 
-A continuación se detallan los integrantes del equipo junto con los enlaces directos a sus informes individuales de la **Etapa 02**:
-
-| Integrante | DNI | Aporte Principal en Etapa 02 | Informe Individual |
-| :--- | :---: | :--- | :---: |
-| **Kiara Itatí Zacarías** | `46.717.369` | Modelado relacional, normalización a 3FN y delimitación del alcance operativo. | [📄 Ver Informe](docs/etapa-02/equipo29_etapa02_DN_46717369.md) |
-| **Sofía Ferretti** | `46.718.162` | Diseño conceptual DER en ERDPlus (notación Chen), cardinalidades y precio histórico en detalle. | [📄 Ver Informe](docs/etapa-02/quipo29_etapa02_46718162.md) |
-| **Nicolás Pini** | `46.844.274` | Mapeo DER a tablas relacionales, normalización a 1FN, diseño atómico de stock y pagos. | [📄 Ver Informe](docs/etapa-02/equipo29_etapa02_46844274.md) |
-| **Lucas Martín Zárate** | `34.936.602` | Normalización a 2FN, eliminación de dependencias parciales (`ASOCIA` ➔ `VENTA`) y diagramas. | [📄 Ver Informe](docs/etapa-02/equipo29_etapa2_34936602.md) |
-| **Octavio Dorrego** | `46.843.173` | Finalización del DER integral, incorporación de entidades Stock, Unidad de Medida y Movimientos. | [📄 Ver Informe](docs/etapa-02/equipo29_etapa2_46843173.md) |
+| Integrante | DNI |
+| :--- | :---: |
+| **Kiara Itatí Zacarías** | `46.717.369` |
+| **Sofía Ferretti** | `46.718.162` |
+| **Nicolás Pini** | `46.844.274` |
+| **Lucas Martín Zárate** | `34.936.602` |
+| **Octavio Dorrego** | `46.843.173` |
 
 ---
 
@@ -131,7 +128,7 @@ timeline
     title Ciclo de Vida del Proyecto BD1 - Equipo 29
     section Finalizadas
         Etapa 01 : Contexto y Problemática : Alcance del Sistema : Reglas de Negocio 1-10
-        Etapa 02 : DER Inicial y Definitivo : 1FN, 2FN y 3FN : Aportes Individuales
+        Etapa 02 : DER Inicial y Definitivo : Normalización 1FN, 2FN y 3FN
     section En Desarrollo
         Etapa 03 : Scripts DDL : Claves Primarias y Foráneas : Restricciones CHECK / UNIQUE
         Etapa 04 : Poblado DML : Consultas Operativas : Reportes y Agrupaciones
@@ -144,7 +141,7 @@ timeline
 | Etapa | Nombre | Estado | Entregables Principales |
 | :---: | :--- | :---: | :--- |
 | **01** | Relevamiento del Negocio | <kbd>✔ Completada</kbd> | Introducción, justificación, alcance del sistema y 10 reglas de negocio formales. |
-| **02** | Modelado Conceptual y Lógico | <kbd>✔ Completada</kbd> | DER Peter Chen, conversión relacional, normalización formal hasta 3FN e informes de integrantes. |
+| **02** | Modelado Conceptual y Lógico | <kbd>✔ Completada</kbd> | DER Peter Chen, conversión relacional y normalización formal hasta 3FN. |
 | **03** | Implementación Física (DDL) | <kbd>⏳ Próximamente</kbd> | Estructura SQL con tipos de datos nativos, PKs, FKs, constraints y reglas de integridad referencial. |
 | **04** | Manipulación y Consultas (DML) | <kbd>⏳ Próximamente</kbd> | Sets de datos de prueba, transacciones de venta, bajas/modificaciones y consultas analíticas de negocio. |
 | **05** | Optimización y Cierre Técnico | <kbd>⏳ Próximamente</kbd> | Vistas de resumen, índices de rendimiento y conclusiones técnicas del proyecto. |
@@ -338,12 +335,7 @@ proyecto-bd1-equipo-29/
 │   │   ├── 📁 Der/                                 # Diagramas Entidad-Relación (notación Peter Chen)
 │   │   │   ├── 🖼️ derInicial.png.png               # DER borrador inicial
 │   │   │   └── 🖼️ DerDefinitivo.jpeg               # DER final del dominio
-│   │   ├── 📄 normalizacion.md                     # Memoria técnica del proceso 1FN, 2FN y 3FN
-│   │   ├── 📄 equipo29_etapa02_DN_46717369.md      # Aporte individual: Kiara Zacarías
-│   │   ├── 📄 quipo29_etapa02_46718162.md          # Aporte individual: Sofía Ferretti
-│   │   ├── 📄 equipo29_etapa02_46844274.md         # Aporte individual: Nicolás Pini
-│   │   ├── 📄 equipo29_etapa2_34936602.md          # Aporte individual: Lucas Zárate
-│   │   └── 📄 equipo29_etapa2_46843173.md          # Aporte individual: Octavio Dorrego
+│   │   └── 📄 normalizacion.md                     # Memoria técnica del proceso 1FN, 2FN y 3FN
 │   │
 │   ├── 📁 etapa-03/                                # Carpeta para scripts DDL
 │   ├── 📁 etapa-04/                                # Carpeta para scripts DML y consultas

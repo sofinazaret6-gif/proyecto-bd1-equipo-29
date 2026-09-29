@@ -36,3 +36,18 @@ Durante la carga inicial de registros en las tablas maestras, se validó el comp
 * *Unicidad e Identificadores Primarios (PRIMARY KEY):*
   - Se confirmó que no existan duplicados en los códigos identificadores de categorías, stock ni medios de pago.
   - En Cliente y Empleado, las claves primarias naturales basadas en el DNI garantizaron que no se registren personas duplicadas dentro de la misma entidad.
+
+
+  ## Validación de Reglas de Negocio en Transacciones (Fase DML Final)
+
+Durante la carga de datos transaccionales, se verificaron los mecanismos de integridad física y lógica:
+
+* **Integridad Referencial en Cascada Lógica:**
+  - Toda tupla en `Producto` requirió la existencia previa de su `id_categoria` e `id_stock`.
+  - La tabla `Detalle-Venta` validó que tanto la venta cabecera (`id_venta`) como el artículo (`id_producto`) estuviesen activos en el sistema.
+* **Consistencia de Precios Históricos:** La persistencia explícita de `precio_unitario` en `Detalle-Venta` garantiza que si el valor de venta en la tabla maestra `Producto` sufre un incremento posterior, los totales de ventas pasadas no sufran alteraciones retroactivas.
+* **Validación de Unicidad Alternativa (Claves Candidatas):**
+  - La restricción `UQ_Producto_Stock` impidió asignar la misma ficha de inventario a dos productos distintos.
+  - La restricción `UQ_Producto_UnidadMedida` protegió el modelo contra duplicidades de la misma unidad en un artículo.
+  - La clave primaria compuesta `(id_venta, id_producto)` bloqueó el registro duplicado de un mismo producto dentro de una misma orden de venta.
+* **Restricción de Pagos Múltiples:** La suma de los importes registrados en `Venta-MedioDePago` para cada venta validó la correspondencia exacta con el `subtotal` registrado en la cabecera.

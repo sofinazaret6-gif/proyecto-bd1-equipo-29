@@ -127,7 +127,7 @@ GO
 -- Creación de Tablas de Tercer Nivel (Detalle-Venta, Venta-MedioDePago, Movimiento-Stock, Categoria-Promocion)
 -- =================================================================================================
 
-CREATE TABLE [Detalle-Venta] (
+CREATE TABLE [Detalle_Venta] (
     id_venta INT NOT NULL,
     id_producto INT NOT NULL,
     cantidad DECIMAL(10,2) NOT NULL,
@@ -140,7 +140,7 @@ CREATE TABLE [Detalle-Venta] (
 );
 GO
 
-CREATE TABLE [Venta-MedioDePago] (
+CREATE TABLE [Venta_MedioDePago] (
     [id_venta-MedioDePago] INT NOT NULL,
     id_venta INT NOT NULL,
     id_medioDePago INT NOT NULL,
@@ -153,7 +153,7 @@ CREATE TABLE [Venta-MedioDePago] (
 GO
 
 
-CREATE TABLE [Movimiento-Stock] (
+CREATE TABLE [Movimiento_Stock] (
     [id_movimiento-Stock] INT NOT NULL,
     fecha_hora DATETIME NOT NULL DEFAULT GETDATE(),
     tipo_movimiento VARCHAR(20) NOT NULL,
@@ -167,7 +167,7 @@ CREATE TABLE [Movimiento-Stock] (
 GO
 
 
-CREATE TABLE [Categoria-Promocion] (
+CREATE TABLE [Categoria_Promocion] (
     id_categoriaPromocion INT NOT NULL,
     id_categoria INT NOT NULL,
     id_promocion INT NOT NULL,

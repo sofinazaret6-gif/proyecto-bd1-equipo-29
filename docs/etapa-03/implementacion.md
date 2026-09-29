@@ -26,3 +26,14 @@ Para mapear las relaciones de muchos a muchos (N:M) y los registros transacciona
 * **Entidades con Clave Subrogada:** En `Venta-MedioDePago` y `Movimiento-Stock` se optó por claves primarias artificiales simples (`[id_venta-MedioDePago]` e `[id_movimiento-Stock]`) para admitir transacciones atómicas repetibles en distintos momentos temporales.
 * **Auditoría Temporal Automática:** En la tabla `Movimiento-Stock`, el atributo `fecha_hora` se configuró con valor predeterminado `DEFAULT GETDATE()`, asegurando el registro cronológico automático de cada operación de inventario.
 
+
+## Implementación DML - Poblado Inicial de Tablas Maestras y Catálogos
+
+La fase inicial de manipulación de datos (DML) consistió en la carga de datos maestros e independientes. Al no poseer dependencias externas de clave foránea, estas tablas debieron ser pobladas antes que las entidades transaccionales para evitar errores de integridad referencial.
+
+* *Categorías y Unidades de Medida:* Se registraron las clasificaciones comerciales base y las unidades de medida necesarias para la venta fraccionada o por docena.
+* *Inventario Base (Stock):* Se inicializaron los registros de stock con sus niveles actuales y límites mínimos de reposición, garantizando que el atributo cantidad_actual sea mayor o igual que cero.
+* *Entidades Fuertes (Cliente y Empleado):* Se ingresaron los registros de clientes con sus números de documento y la nómina de empleados asignados a turnos específicos de trabajo (Turno Mañana y Turno Tarde).
+* *Catálogo de Medios de Pago:* Se dieron de alta las modalidades de cobro aceptadas por el negocio (Efectivo, Débito, Crédito y Transferencias/QR).
+
+

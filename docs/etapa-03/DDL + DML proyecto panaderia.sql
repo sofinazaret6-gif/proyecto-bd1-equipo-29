@@ -242,3 +242,22 @@ INSERT INTO [Categoria_Promocion] (id_categoriaPromocion, id_categoria, id_promo
 (1, 3, 1),
 (2, 2, 2);
 
+INSERT INTO [Movimiento_Stock] ([id_movimiento-Stock], fecha_hora, tipo_movimiento, cantidad, id_stock) VALUES
+(1, '2026-09-25 06:00:00', 'INGRESO', 150.00, 101),
+(2, '2026-09-25 06:30:00', 'INGRESO', 80.00, 102),
+(3, '2026-09-25 07:00:00', 'INGRESO', 30.00, 103),
+(4, '2026-09-25 07:15:00', 'COMPRA', 50.00, 104);
+
+INSERT INTO [Venta] (id_venta, subtotal, DNI_cliente, DNI_empleado) VALUES
+(1001, 11600.00, 34936602, 28456123),
+(1002, 4400.00, NULL, 31789456);
+
+INSERT INTO [Detalle_Venta] (id_venta, id_producto, cantidad, precio_unitario) VALUES
+(1001, 1, 2.00, 2200.00),
+(1001, 2, 12.00, 600.00),
+(1002, 1, 2.00, 2200.00);
+
+INSERT INTO [Venta_MedioDePago] ([id_venta-MedioDePago], id_venta, id_medioDePago, importe) VALUES
+(1, 1001, 1, 5000.00),
+(2, 1001, 4, 6600.00),
+(3, 1002, 1, 4400.00);

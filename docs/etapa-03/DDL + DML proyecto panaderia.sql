@@ -177,3 +177,25 @@ CREATE TABLE [Categoria-Promocion] (
     CONSTRAINT UQ_CategoriaPromocion UNIQUE (id_categoria, id_promocion)
 );
 GO
+
+-- =================================================================================================
+-- 4: 
+-- Inserción de datos de prueba para tablas maestras y stock (Categorias, Stock, Unidad-Medida, Empleado, Cliente)
+-- =================================================================================================
+
+INSERT INTO [Categoria] (id_categoria, [descripción]) VALUES
+(1, 'Panadería Tradicional'),
+(2, 'Pastelería y Confitería'),
+(3, 'Facturas y Medialunas'),
+(4, 'Especialidades Maduradas');
+
+INSERT INTO [Stock] (id_stock, cantidad_actual, stock_minimo) VALUES
+(101, 150.00, 20.00),
+(102, 80.00, 15.00),
+(103, 30.00, 5.00),
+(104, 50.00, 10.00);
+
+INSERT INTO [Unidad-Medida] (id_unidadMedida, descripcion, abreviatura) VALUES
+(1, 'Kilogramo', 'kg'),
+(2, 'Docena', 'doc'),
+(3, 'Unidad', 'u');

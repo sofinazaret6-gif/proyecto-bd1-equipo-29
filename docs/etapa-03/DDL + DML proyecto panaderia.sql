@@ -153,3 +153,27 @@ CREATE TABLE [Venta-MedioDePago] (
 GO
 
 
+CREATE TABLE [Movimiento-Stock] (
+    [id_movimiento-Stock] INT NOT NULL,
+    fecha_hora DATETIME NOT NULL DEFAULT GETDATE(),
+    tipo_movimiento VARCHAR(20) NOT NULL,
+    cantidad DECIMAL(12,2) NOT NULL,
+    id_stock INT NOT NULL,
+    CONSTRAINT PK_MovimientoStock PRIMARY KEY ([id_movimiento-Stock]),
+    CONSTRAINT FK_MovimientoStock_Stock FOREIGN KEY (id_stock) REFERENCES [Stock](id_stock),
+    CONSTRAINT CK_MovimientoStock_Cantidad CHECK (cantidad > 0),
+    CONSTRAINT CK_MovimientoStock_Tipo CHECK (UPPER(tipo_movimiento) IN ('INGRESO', 'EGRESO', 'COMPRA', 'VENTA', 'AJUSTE'))
+);
+GO
+
+
+CREATE TABLE [Categoria-Promocion] (
+    id_categoriaPromocion INT NOT NULL,
+    id_categoria INT NOT NULL,
+    id_promocion INT NOT NULL,
+    CONSTRAINT PK_CategoriaPromocion PRIMARY KEY (id_categoriaPromocion),
+    CONSTRAINT FK_CategoriaPromocion_Categoria FOREIGN KEY (id_categoria) REFERENCES [Categoria](id_categoria),
+    CONSTRAINT FK_CategoriaPromocion_Promocion FOREIGN KEY (id_promocion) REFERENCES [Promocion](id_promocion),
+    CONSTRAINT UQ_CategoriaPromocion UNIQUE (id_categoria, id_promocion)
+);
+GO

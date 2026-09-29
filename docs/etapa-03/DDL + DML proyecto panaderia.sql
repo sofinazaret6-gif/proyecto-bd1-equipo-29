@@ -214,3 +214,31 @@ INSERT INTO [MedioDePago] (id_medioDePago, descripcion) VALUES
 (2, 'Tarjeta de Débito'),
 (3, 'Tarjeta de Crédito'),
 (4, 'Transferencia Bancaria / QR');
+
+
+-- =================================================================================================
+-- 5: 
+-- Inserción de datos de prueba transaccionales y de relaciones (Productos, Promociones, Ventas, Detalles, Pagos, Movimientos)
+-- =================================================================================================
+
+INSERT INTO [Producto] (id_producto, nombre, precio_unitario, id_categoria, id_stock) VALUES
+(1, 'Pan Francés', 2200.00, 1, 101),
+(2, 'Medialunas de Manteca', 600.00, 3, 102),
+(3, 'Torta Rogel Artesanal', 18500.00, 2, 103),
+(4, 'Panettone Tradicional Madurado', 9500.00, 4, 104);
+
+INSERT INTO [Producto_Unidad] (id_productoUnidad, [conversión], id_producto, id_unidadMedida) VALUES
+(1, 1.0000, 1, 1),
+(2, 1.0000, 2, 3),
+(3, 12.0000, 2, 2),
+(4, 1.0000, 3, 3),
+(5, 1.0000, 4, 3);
+
+INSERT INTO [Promocion] (id_promocion, descripcion, fecha_inicio, fecha_fin) VALUES
+(1, 'Super Descuento Docena de Medialunas', '2026-09-01', '2026-10-31'),
+(2, 'Fin de Semana Dulce en Confitería', '2026-09-20', '2026-09-30');
+
+INSERT INTO [Categoria_Promocion] (id_categoriaPromocion, id_categoria, id_promocion) VALUES
+(1, 3, 1),
+(2, 2, 2);
+

@@ -25,3 +25,14 @@ Markdown
 ## Validación Estructural de Integridad Referencial y Reglas CHECK (Nivel 3)
 * **Comprobación de Claves Foráneas:** Se verificó que el motor relacional bloquee cualquier intento de inserción de un registro dependiente (`Detalle-Venta` o `Movimiento-Stock`) cuyo identificador foráneo no se encuentre previamente insertado en su tabla padre (`Venta`, `Producto` o `Stock`).
 * **Validación de Restricciones CHECK:** Se ejecutaron pruebas negativas intentando registrar movimientos con tipos incompatibles (ej. `'DEVOLUCION'`), comprobando que SQL Server emite el error `Msg 547 (Conflicto con la restricción CHECK)` cancelando la transacción.
+
+## Validación de Reglas e Integridad en Tablas Maestras (Fase DML 1)
+
+Durante la carga inicial de registros en las tablas maestras, se validó el comportamiento de las restricciones declaradas en el DDL:
+
+* *Restricciones de Dominio CHECK:*
+  - En la tabla Stock: se constató que los valores numéricos ingresados en cantidad_actual y stock_minimo satisfagan la condición booleana de no negatividad (>= 0).
+  - En Unidad_Medida y Categoria: se verificó que las cadenas de texto ingresadas no contengan espacios vacíos mediante la función LEN(TRIM(...)) > 0.
+* *Unicidad e Identificadores Primarios (PRIMARY KEY):*
+  - Se confirmó que no existan duplicados en los códigos identificadores de categorías, stock ni medios de pago.
+  - En Cliente y Empleado, las claves primarias naturales basadas en el DNI garantizaron que no se registren personas duplicadas dentro de la misma entidad.

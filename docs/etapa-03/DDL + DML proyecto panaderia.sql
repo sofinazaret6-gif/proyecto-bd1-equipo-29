@@ -199,3 +199,18 @@ INSERT INTO [Unidad-Medida] (id_unidadMedida, descripcion, abreviatura) VALUES
 (1, 'Kilogramo', 'kg'),
 (2, 'Docena', 'doc'),
 (3, 'Unidad', 'u');
+
+INSERT INTO [Cliente] ([DNI_cliente], [Nombre], [Apellido]) VALUES
+(34936602, 'Lucas', 'Zárate'),
+(46843173, 'Octavio', 'Dorrego'),
+(46717369, 'Kiara', 'Zacarías');
+
+INSERT INTO [Empleado] ([DNI_empleado], [Nombre], [Apellido], [Turno_Laboral]) VALUES
+(28456123, 'Martín', 'Gómez', 'Turno Mañana'),
+(31789456, 'Valeria', 'Fernández', 'Turno Tarde');
+
+INSERT INTO [MedioDePago] (id_medioDePago, descripcion) VALUES
+(1, 'Efectivo'),
+(2, 'Tarjeta de Débito'),
+(3, 'Tarjeta de Crédito'),
+(4, 'Transferencia Bancaria / QR');

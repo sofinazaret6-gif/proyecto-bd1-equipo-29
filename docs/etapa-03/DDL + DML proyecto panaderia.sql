@@ -28,7 +28,7 @@ CREATE TABLE [Stock] (
 );
 GO
 
-CREATE TABLE [Unidad-Medida] (
+CREATE TABLE [Unidad_Medida] (
     id_unidadMedida INT NOT NULL,
     descripcion VARCHAR(50) NOT NULL,
     abreviatura VARCHAR(10) NOT NULL,

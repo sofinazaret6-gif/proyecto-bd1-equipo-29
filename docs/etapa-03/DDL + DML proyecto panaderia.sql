@@ -119,3 +119,37 @@ CREATE TABLE [Venta] (
     CONSTRAINT CK_Venta_Subtotal CHECK (subtotal >= 0)
 );
 GO
+
+
+
+-- =================================================================================================
+--  3: 
+-- Creación de Tablas de Tercer Nivel (Detalle-Venta, Venta-MedioDePago, Movimiento-Stock, Categoria-Promocion)
+-- =================================================================================================
+
+CREATE TABLE [Detalle-Venta] (
+    id_venta INT NOT NULL,
+    id_producto INT NOT NULL,
+    cantidad DECIMAL(10,2) NOT NULL,
+    precio_unitario DECIMAL(12,2) NOT NULL,
+    CONSTRAINT PK_DetalleVenta PRIMARY KEY (id_venta, id_producto),
+    CONSTRAINT FK_DetalleVenta_Venta FOREIGN KEY (id_venta) REFERENCES [Venta](id_venta),
+    CONSTRAINT FK_DetalleVenta_Producto FOREIGN KEY (id_producto) REFERENCES [Producto](id_producto),
+    CONSTRAINT CK_DetalleVenta_Cantidad CHECK (cantidad > 0),
+    CONSTRAINT CK_DetalleVenta_PrecioUnitario CHECK (precio_unitario >= 0)
+);
+GO
+
+CREATE TABLE [Venta-MedioDePago] (
+    [id_venta-MedioDePago] INT NOT NULL,
+    id_venta INT NOT NULL,
+    id_medioDePago INT NOT NULL,
+    importe DECIMAL(12,2) NOT NULL,
+    CONSTRAINT PK_VentaMedioDePago PRIMARY KEY ([id_venta-MedioDePago]),
+    CONSTRAINT FK_VentaMedioDePago_Venta FOREIGN KEY (id_venta) REFERENCES [Venta](id_venta),
+    CONSTRAINT FK_VentaMedioDePago_MedioDePago FOREIGN KEY (id_medioDePago) REFERENCES [MedioDePago](id_medioDePago),
+    CONSTRAINT CK_VentaMedioDePago_Importe CHECK (importe > 0)
+);
+GO
+
+

@@ -11,3 +11,43 @@ Para garantizar la consistencia y robustez de los datos en este primer nivel, se
 
 * **Restricciones UNIQUE:**  Se utilizó la restricción de unicidad para imponer cardinalidad 1 a 1 sobre valores no nulos. Por ejemplo, UQ_Producto_Stock garantiza que un mismo stock no sea asignado a más de un producto, actuando como clave candidata o alternativa. Asimismo, UQ_Producto_UnidadMedida previene la duplicidad de la combinación de producto y unidad.
 
+
+
+## Restricciones de Reglas de Negocio e Integridad Referencial (Nivel 3)
+* **Integridad Referencial Cruzada:** Se definieron restricciones `FOREIGN KEY` explícitas (ej. `FK_DetalleVenta_Venta` y `FK_DetalleVenta_Producto`) que vinculan las transacciones dependientes con las entidades fuertes de nivel 1 y 2, impidiendo la creación de registros huérfanos o transacciones sobre productos y ventas inexistentes.
+* **Validaciones CHECK Transaccionales:** Se implementaron compuertas de dominio a nivel de fila mediante `CHECK`:
+  - En `Detalle-Venta`: `cantidad > 0` y `precio_unitario >= 0`, asegurando que no existan cantidades nulas ni precios negativos.
+  - En `Venta-MedioDePago`: `importe > 0`, obligando a registrar pagos con valores positivos.
+  - En `Movimiento-Stock`: `cantidad > 0` y restricción de dominio categórico `UPPER(tipo_movimiento) IN ('INGRESO', 'EGRESO', 'COMPRA', 'VENTA', 'AJUSTE')`, bloqueando cualquier clasificación fuera del estándar operativo.
+* **Unicidad en Asociaciones Múltiples:** En la tabla `Categoria-Promocion`, se añadió la restricción `CONSTRAINT UQ_CategoriaPromocion UNIQUE (id_categoria, id_promocion)` para evitar duplicaciones lógicas al vincular una promoción con una misma categoría.
+A incorporar en docs/etapa-03/pruebas-validaciones.md
+Markdown
+## Validación Estructural de Integridad Referencial y Reglas CHECK (Nivel 3)
+* **Comprobación de Claves Foráneas:** Se verificó que el motor relacional bloquee cualquier intento de inserción de un registro dependiente (`Detalle-Venta` o `Movimiento-Stock`) cuyo identificador foráneo no se encuentre previamente insertado en su tabla padre (`Venta`, `Producto` o `Stock`).
+* **Validación de Restricciones CHECK:** Se ejecutaron pruebas negativas intentando registrar movimientos con tipos incompatibles (ej. `'DEVOLUCION'`), comprobando que SQL Server emite el error `Msg 547 (Conflicto con la restricción CHECK)` cancelando la transacción.
+
+## Validación de Reglas e Integridad en Tablas Maestras (Fase DML 1)
+
+Durante la carga inicial de registros en las tablas maestras, se validó el comportamiento de las restricciones declaradas en el DDL:
+
+* *Restricciones de Dominio CHECK:*
+  - En la tabla Stock: se constató que los valores numéricos ingresados en cantidad_actual y stock_minimo satisfagan la condición booleana de no negatividad (>= 0).
+  - En Unidad_Medida y Categoria: se verificó que las cadenas de texto ingresadas no contengan espacios vacíos mediante la función LEN(TRIM(...)) > 0.
+* *Unicidad e Identificadores Primarios (PRIMARY KEY):*
+  - Se confirmó que no existan duplicados en los códigos identificadores de categorías, stock ni medios de pago.
+  - En Cliente y Empleado, las claves primarias naturales basadas en el DNI garantizaron que no se registren personas duplicadas dentro de la misma entidad.
+
+
+  ## Validación de Reglas de Negocio en Transacciones (Fase DML Final)
+
+Durante la carga de datos transaccionales, se verificaron los mecanismos de integridad física y lógica:
+
+* **Integridad Referencial en Cascada Lógica:**
+  - Toda tupla en `Producto` requirió la existencia previa de su `id_categoria` e `id_stock`.
+  - La tabla `Detalle-Venta` validó que tanto la venta cabecera (`id_venta`) como el artículo (`id_producto`) estuviesen activos en el sistema.
+* **Consistencia de Precios Históricos:** La persistencia explícita de `precio_unitario` en `Detalle-Venta` garantiza que si el valor de venta en la tabla maestra `Producto` sufre un incremento posterior, los totales de ventas pasadas no sufran alteraciones retroactivas.
+* **Validación de Unicidad Alternativa (Claves Candidatas):**
+  - La restricción `UQ_Producto_Stock` impidió asignar la misma ficha de inventario a dos productos distintos.
+  - La restricción `UQ_Producto_UnidadMedida` protegió el modelo contra duplicidades de la misma unidad en un artículo.
+  - La clave primaria compuesta `(id_venta, id_producto)` bloqueó el registro duplicado de un mismo producto dentro de una misma orden de venta.
+* **Restricción de Pagos Múltiples:** La suma de los importes registrados en `Venta-MedioDePago` para cada venta validó la correspondencia exacta con el `subtotal` registrado en la cabecera.

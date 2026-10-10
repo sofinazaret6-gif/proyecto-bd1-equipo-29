@@ -4,8 +4,19 @@
 -- DIALECTO: Microsoft SQL Server (T-SQL)
 -- DESCRIPCIÓN: Implementación del esquema relacional exacto (DDL + DML) 
 ----------------------------------------------------------------------------------------------------
+USE master;
+GO
+
+IF EXISTS (SELECT name FROM sys.databases WHERE name = N'Panaderia_Tortuga')
+BEGIN
+    ALTER DATABASE Panaderia_Tortuga SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE Panaderia_Tortuga;
+END
+GO
+
 CREATE DATABASE Panaderia_Tortuga;
 GO
+
 USE Panaderia_Tortuga;
 GO
 
@@ -102,7 +113,7 @@ CREATE TABLE [Producto_Unidad] (
     id_unidadMedida INT NOT NULL,
     CONSTRAINT PK_ProductoUnidad PRIMARY KEY (id_productoUnidad),
     CONSTRAINT FK_ProductoUnidad_Producto FOREIGN KEY (id_producto) REFERENCES [Producto](id_producto),
-    CONSTRAINT FK_ProductoUnidad_UnidadMedida FOREIGN KEY (id_unidadMedida) REFERENCES [Unidad-Medida](id_unidadMedida),
+    CONSTRAINT FK_ProductoUnidad_UnidadMedida FOREIGN KEY (id_unidadMedida) REFERENCES [Unidad_Medida](id_unidadMedida),
     CONSTRAINT UQ_Producto_UnidadMedida UNIQUE (id_producto, id_unidadMedida),
     CONSTRAINT CK_ProductoUnidad_Conversion CHECK ([conversión] > 0)
 );

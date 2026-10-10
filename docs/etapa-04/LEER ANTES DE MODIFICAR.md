@@ -5,24 +5,31 @@ Requerimiento: 1. Factura/Comprobante de Venta.
 
 Archivos a modificar/crear: comprobante_venta.sql y comprobante-venta.md.
 
-Integrante 2:
 
-Requerimiento: 2. Reporte Agregado por Vendedor / Categoría (GROUP BY, SUM, COUNT).
+Integrante 2: Reporte Agregado por Vendedor
+Consigna asignada: Reporte Agregado (variante por vendedor). Total de ventas realizadas por cada vendedor en un rango de fechas.
 
-Archivos: informe_ventas.sql e informe-venta.md.
+Operaciones SQL: INNER JOIN entre Empleado, Venta y Detalle_Venta, funciones agregadas SUM y COUNT, agrupamiento por GROUP BY y filtro temporal en WHERE.
 
-Integrante 3:
+Archivos: sql/consultas/reporte_ventas_vendedor.sql y docs/reporte-ventas-vendedor.md.
 
-Requerimiento: 3. Consulta de Negocio Avanzada (mínimo 3 tablas, HAVING o subconsultas).
+Integrante 3: Reporte Agregado por Categoría
+Consigna asignada: Reporte Agregado (variante por categoría). Total de ventas realizadas por cada categoría de producto en un rango de fechas.
 
-Archivos: consulta_avanzada.sql y consulta-avanzada.md.
+Operaciones SQL: INNER JOIN entre Categoria, Producto y Detalle_Venta, métricas agregadas con SUM y COUNT, agrupamiento por GROUP BY y filtro de rango de fechas.
 
-Integrante 4:
+Archivos: sql/consultas/reporte_ventas_categoria.sql y docs/reporte-ventas-categoria.md.
 
-Requerimiento: Definición integral del negocio y mapeo funcional de las necesidades.
+Integrante 4: Consulta de Negocio Avanzada con HAVING
+Consigna asignada: Consulta de Negocio Avanzada (variante agregada). Combinar al menos 3 tablas mediante JOIN y aplicar filtros condicionales con HAVING.
 
-Archivo: casos-uso.md.
+Operaciones SQL: JOIN entre Cliente, Venta y Detalle_Venta (o Producto, Detalle_Venta y Categoria), agrupamiento con GROUP BY y restricción posterior al agregado mediante HAVING (por ejemplo, clientes con facturación acumulada superior a un monto objetivo o categorías con más de N unidades despachadas).
 
-Integrante 5:
+Archivos: sql/consultas/consulta_avanzada_having.sql y docs/consulta-avanzada-having.md.
 
-Requerimiento: Pruebas de ejecución, planes de rendimiento/índices y unificación de scripts.
+Integrante 5: Consulta de Negocio Avanzada con Subconsultas
+Consigna asignada: Consulta de Negocio Avanzada (variante subconsulta). Combinar al menos 3 tablas mediante JOIN y aplicar filtros condicionales con subconsultas.
+
+Operaciones SQL: JOIN de al menos 3 tablas (Venta, Detalle_Venta, Producto) filtradas condicionalmente mediante una subconsulta no trivial en la cláusula WHERE (por ejemplo, listar transacciones cuyos renglones superen el precio promedio de todos los productos del catálogo o productos que no registran ventas respecto al inventario general).
+
+Archivos: sql/consultas/consulta_avanzada_subconsulta.sql y docs/consulta-avanzada-subconsulta.md

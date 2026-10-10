@@ -12,21 +12,21 @@
 ## 2. Descripción y Objetivo de Negocio
 El objetivo fundamental de esta consulta es generar la representación estructurada de un **comprobante fiscal o ticket de venta comercial**, consolidando en una única salida tabular tanto los datos generales de la operación (encabezado) como las líneas de artículos adquiridos (detalle).
 
-En el modelo operativo de una panadería barrial, el punto de venta requiere despachar operaciones de manera rápida, clara y transparente[cite: 13, 15]:
-1. El cliente y el cajero deben visualizar de forma desglosada cada artículo despachado, su cantidad (unitaria o pesable fraccionada) y el precio unitario pactado[cite: 12, 13].
+En el modelo operativo de una panadería barrial, el punto de venta requiere despachar operaciones de manera rápida, clara y transparente:
+1. El cliente y el cajero deben visualizar de forma desglosada cada artículo despachado, su cantidad (unitaria o pesable fraccionada) y el precio unitario pactado.
 2. Se debe calcular en tiempo de consulta el subtotal de cada renglón.
 3. Se debe presentar el importe total acumulado de la venta en cada línea para validar la consistencia frente a los cobros registrados.
 
 ---
 
 ## 3. Entidades y Esquema Relacional Involucrado
-La consulta vincula cinco tablas del esquema relacional físico mediante claves primarias y foráneas[cite: 5]:
+La consulta vincula cinco tablas del esquema relacional físico mediante claves primarias y foráneas:
 
-* **`[Venta]` (Tabla Transaccional Cabecera):** Proporciona el número de comprobante (`id_venta`) y las claves foráneas hacia el cliente y el empleado[cite: 5].
-* **`[Detalle_Venta]` (Tabla Asociativa / Transaccional N:M):** Provee las tuplas de renglón con los atributos `cantidad` y `precio_unitario` histórico congelado[cite: 3, 5].
-* **`[Producto]` (Catálogo de Artículos):** Aporta el código identificador (`id_producto`) y la denominación comercial descriptiva (`nombre`)[cite: 5].
-* **`[Empleado]` (Entidad Maestra de Personal):** Identifica al operador responsable del despacho mediante su nombre, apellido y turno laboral (`Turno_Laboral`), permitiendo la trazabilidad y arqueo de caja[cite: 5, 15].
-* **`[Cliente]` (Entidad Maestra de Clientes):** Permite asociar los datos personales (`Nombre`, `Apellido`, `DNI_cliente`) cuando el cliente solicita comprobante formal o cuenta corriente[cite: 5, 12].
+* **`[Venta]` (Tabla Transaccional Cabecera):** Proporciona el número de comprobante (`id_venta`) y las claves foráneas hacia el cliente y el empleado.
+* **`[Detalle_Venta]` (Tabla Asociativa / Transaccional N:M):** Provee las tuplas de renglón con los atributos `cantidad` y `precio_unitario` histórico congelado.
+* **`[Producto]` (Catálogo de Artículos):** Aporta el código identificador (`id_producto`) y la denominación comercial descriptiva (`nombre`).
+* **`[Empleado]` (Entidad Maestra de Personal):** Identifica al operador responsable del despacho mediante su nombre, apellido y turno laboral (`Turno_Laboral`), permitiendo la trazabilidad y arqueo de caja.
+* **`[Cliente]` (Entidad Maestra de Clientes):** Permite asociar los datos personales (`Nombre`, `Apellido`, `DNI_cliente`) cuando el cliente solicita comprobante formal o cuenta corriente.
 
 ---
 

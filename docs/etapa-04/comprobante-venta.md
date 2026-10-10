@@ -3,7 +3,7 @@
 ## 1. Identificación y Metadatos
 * **Proyecto:** Sistema de Gestión de Ventas — Panadería Tortuga
 * **Etapa:** Etapa IV — Consultas y Casos de Uso
-* **Responsable:** Lucas Martín Zárate (Integrante 1)
+* **Responsable:** Lucas Martín Zárate
 * **Archivo SQL asociado:** `sql/consultas/comprobante_venta.sql`
 * **Dialecto / Estándar:** Microsoft SQL Server (T-SQL) adaptado a **ANSI SQL-92 / ANSI SQL-99**
 

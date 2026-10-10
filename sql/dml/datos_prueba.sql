@@ -1,5 +1,27 @@
 USE Panaderia_Tortuga;
 GO
+
+-- Establece el formato de fecha para evitar el error 242 (ajusta según cómo tengas escritas tus fechas: ymd, dmy, etc.)
+SET DATEFORMAT dmy;
+GO
+
+-- Deshabilita todas las restricciones de clave foránea
+EXEC sp_MSforeachtable "ALTER TABLE ? NOCHECK CONSTRAINT ALL";
+GO
+
+-- Elimina los datos de todas las tablas
+EXEC sp_MSforeachtable "DELETE FROM ?";
+GO
+
+-- Vuelve a habilitar y verificar todas las restricciones
+EXEC sp_MSforeachtable "ALTER TABLE ? WITH CHECK CHECK CONSTRAINT ALL";
+GO
+
+SET LANGUAGE Spanish;
+GO
+SET DATEFORMAT ymd;
+GO
+
 -- =================================================================================================
 -- 1: 
 -- Inserción de datos de prueba para tablas maestras y stock (Categorias, Stock, Unidad-Medida, Empleado, Cliente)
@@ -17,7 +39,7 @@ INSERT INTO [Stock] (id_stock, cantidad_actual, stock_minimo) VALUES
 (103, 30.00, 5.00),
 (104, 50.00, 10.00);
 
-INSERT INTO [Unidad-Medida] (id_unidadMedida, descripcion, abreviatura) VALUES
+INSERT INTO [Unidad_Medida] (id_unidadMedida, descripcion, abreviatura) VALUES
 (1, 'Kilogramo', 'kg'),
 (2, 'Docena', 'doc'),
 (3, 'Unidad', 'u');

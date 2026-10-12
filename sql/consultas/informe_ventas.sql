@@ -28,7 +28,7 @@ SELECT
     e.Turno_Laboral AS turno_empleado,
     
     -- Métricas cuantitativas y agregadas
-    COUNT(v.id_venta) AS cantidad_ventas_realizadas,
+    COUNT(distinct v.id_venta) AS cantidad_ventas_realizadas,
     COUNT(dv.id_producto) AS cantidad_lineas_despachadas,
     CAST(SUM(dv.cantidad) AS DECIMAL(12,2)) AS total_unidades_despachadas,
     CAST(SUM(dv.cantidad * dv.precio_unitario) AS DECIMAL(12,2)) AS total_ventas_facturado,

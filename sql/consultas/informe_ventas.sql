@@ -63,4 +63,48 @@ ORDER BY
 --   * Métricas agregadas con SUM y COUNT.
 --   * Agrupamiento con GROUP BY y filtro de fechas en WHERE.
 -- =================================================================================================
--- (Sección reservada para la implementación correspondiente al Integrante 3)
+
+-- Parámetros de entrada para el rango de fechas analizado
+DECLARE @fecha_desde_categoria DATE = '2026-10-01';
+DECLARE @fecha_hasta_categoria DATE = '2026-10-31';
+
+SELECT
+    c.id_categoria AS codigo_categoria,
+    c.[descripción] AS categoria,
+
+    -- Métricas cuantitativas
+    COUNT(DISTINCT v.id_venta) AS cantidad_ventas,
+    COUNT(dv.id_producto) AS cantidad_lineas_vendidas,
+
+    CAST(
+        SUM(dv.cantidad)
+        AS DECIMAL(12,2)
+    ) AS total_unidades_vendidas,
+
+    CAST(
+        SUM(dv.cantidad * dv.precio_unitario)
+        AS DECIMAL(12,2)
+    ) AS total_facturado
+
+FROM Categoria AS c
+
+INNER JOIN Producto AS p
+    ON c.id_categoria = p.id_categoria
+
+INNER JOIN Detalle_Venta AS dv
+    ON p.id_producto = dv.id_producto
+
+INNER JOIN Venta AS v
+    ON dv.id_venta = v.id_venta
+
+WHERE v.fecha >= @fecha_desde_categoria
+  AND v.fecha < DATEADD(DAY, 1, @fecha_hasta_categoria)
+
+GROUP BY
+    c.id_categoria,
+    c.[descripción]
+
+ORDER BY
+    total_facturado DESC,
+    categoria ASC;
+```

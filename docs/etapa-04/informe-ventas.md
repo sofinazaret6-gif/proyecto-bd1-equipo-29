@@ -115,3 +115,110 @@ Ejecutando la consulta sobre el dataset de prueba cargado en la base de datos `P
 2. **Distribución por turno:** Se observa un mayor volumen de operaciones durante el turno mañana (7 transacciones entre Gómez y Méndez) en comparación con el turno tarde (3 transacciones de Fernández), reflejando el patrón comercial esperado para una panadería.
 
 ---
+---
+
+## 7. Reporte Agregado de Ventas por Categoría
+
+### 7.1 Identificación y Metadatos
+
+- **Proyecto:** Sistema de Gestión de Ventas — Panadería Tortuga.
+- **Etapa:** Etapa IV — Consultas y Casos de Uso.
+- **Responsable:** Ferretti Sofia.
+- **Archivo SQL asociado:** `sql/consultas/informe_ventas.sql`.
+- **Dialecto:** Microsoft SQL Server (T-SQL), con operaciones relacionales y agregadas compatibles con los principios de ANSI SQL.
+
+### 7.2 Descripción y Objetivo de Negocio
+
+El objetivo de esta consulta es generar un informe analítico de ventas agrupadas por categoría de producto dentro de un rango de fechas parametrizado.
+
+Este reporte permite a la administración:
+
+1. Identificar las categorías que generan mayor facturación.
+2. Cuantificar las unidades comercializadas por categoría.
+3. Conocer cuántas ventas incluyeron productos de cada categoría.
+4. Comparar el desempeño comercial de las distintas líneas de productos.
+5. Obtener información útil para planificar la producción, administrar el stock y diseñar promociones comerciales.
+
+### 7.3 Entidades y Esquema Relacional Involucrado
+
+La consulta relaciona cuatro tablas del esquema físico:
+
+- **`Categoria`:** proporciona el identificador y la descripción de cada categoría.
+- **`Producto`:** vincula cada producto con su categoría mediante `id_categoria`.
+- **`Detalle_Venta`:** contiene los productos vendidos, las cantidades y los precios unitarios históricos.
+- **`Venta`:** proporciona el identificador del comprobante y la fecha necesaria para filtrar las operaciones.
+
+El encadenamiento relacional es:
+
+`Categoria → Producto → Detalle_Venta → Venta`
+
+### 7.4 Operaciones SQL Implementadas
+
+**INNER JOIN:** relaciona las categorías con sus productos y con los detalles de las ventas, permitiendo determinar qué productos se comercializaron en cada categoría.
+
+**WHERE:** limita el análisis al período seleccionado mediante las variables `@fecha_desde_categoria` y `@fecha_hasta_categoria`.
+
+**COUNT(DISTINCT v.id_venta):** contabiliza la cantidad de comprobantes distintos que incluyen productos de cada categoría, evitando contar dos veces una misma venta dentro de esa categoría.
+
+**COUNT(dv.id_producto):** contabiliza las líneas de detalle correspondientes a los productos vendidos.
+
+**SUM(dv.cantidad):** calcula el total de unidades vendidas por categoría.
+
+**SUM(dv.cantidad * dv.precio_unitario):** calcula la facturación acumulada de los productos de cada categoría utilizando sus precios históricos.
+
+**CAST(... AS DECIMAL(12,2)):** establece una precisión decimal de dos posiciones para la presentación de los indicadores numéricos.
+
+**GROUP BY:** agrupa los registros por identificador y descripción de categoría para obtener un resultado consolidado por cada una.
+
+**ORDER BY:** ordena las categorías por facturación descendente, colocando primero aquellas que generaron mayores ingresos.
+
+### 7.5 Parámetros de Entrada
+
+| Parámetro | Descripción | Valor inicial |
+|---|---|---|
+| `@fecha_desde_categoria` | Fecha inicial del período | 01/10/2026 |
+| `@fecha_hasta_categoria` | Fecha final del período | 31/10/2026 |
+
+Los parámetros pueden modificarse para realizar análisis semanales, mensuales o correspondientes a otros períodos.
+
+El filtro utiliza una fecha inicial inclusiva y un límite superior exclusivo correspondiente al día siguiente de la fecha final. De esta manera, se incluyen todas las operaciones del último día, incluso si el campo `fecha` contiene horas.
+
+### 7.6 Indicadores Obtenidos
+
+El resultado de la consulta presenta:
+
+- Código de la categoría.
+- Descripción de la categoría.
+- Cantidad de ventas distintas que incluyeron productos de esa categoría.
+- Cantidad de líneas de detalle vendidas.
+- Total de unidades vendidas.
+- Importe total facturado por categoría.
+
+### 7.7 Consideraciones Técnicas
+
+La facturación se calcula mediante `Detalle_Venta.cantidad * Detalle_Venta.precio_unitario`, ya que este último representa el precio histórico registrado al realizar la venta.
+
+El uso de `COUNT(DISTINCT v.id_venta)` es necesario porque una misma venta puede contener varias líneas de detalle correspondientes a una misma categoría.
+
+La consulta emplea `INNER JOIN`, por lo que solamente devuelve categorías que tengan productos con ventas registradas dentro del período. Las categorías sin ventas durante ese rango no aparecen en el resultado.
+
+La validez del filtro temporal depende de que `Venta.fecha` esté correctamente cargada para las operaciones analizadas.
+
+### 7.8 Validación y Ejecución
+
+Para validar el informe:
+
+1. Abrir Microsoft SQL Server Management Studio.
+2. Abrir `sql/consultas/informe_ventas.sql`.
+3. Verificar que la base de datos `Panaderia_Tortuga` contenga las tablas y los datos de prueba.
+4. Ejecutar el script completo.
+5. Revisar el conjunto de resultados correspondiente a la sección 2.
+6. Comprobar que las categorías aparezcan agrupadas y ordenadas por facturación.
+
+Los valores finales deben documentarse a partir de la ejecución real de la consulta. No se incluyen resultados numéricos de ejemplo como si fueran una salida verificada.
+
+### 7.9 Resultado Esperado y Utilidad para el Negocio
+
+El informe permite comparar la facturación y el volumen de ventas de las distintas categorías de la panadería durante el período seleccionado.
+
+Esta información contribuye a identificar las líneas de productos con mejor desempeño comercial y proporciona una base cuantitativa para tomar decisiones relacionadas con la producción, las compras, el stock y las estrategias de promoción.

@@ -131,6 +131,8 @@ CREATE TABLE [Venta] (
 );
 GO
 
+ALTER TABLE [Venta] ADD [fecha] DATE NOT NULL CONSTRAINT DF_Venta_Fecha DEFAULT CAST(GETDATE() AS DATE);
+
 
 
 -- =================================================================================================
@@ -188,4 +190,3 @@ CREATE TABLE [Categoria_Promocion] (
     CONSTRAINT UQ_CategoriaPromocion UNIQUE (id_categoria, id_promocion)
 );
 GO
-

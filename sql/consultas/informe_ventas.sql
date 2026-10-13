@@ -107,4 +107,3 @@ GROUP BY
 ORDER BY
     total_facturado DESC,
     categoria ASC;
-```

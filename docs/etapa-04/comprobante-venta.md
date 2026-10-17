@@ -1,11 +1,12 @@
 # Requerimiento 1: Emisión de Factura / Comprobante de Venta Consolidado
 
 ## 1. Identificación y Metadatos
-* **Proyecto:** Sistema de Gestión de Ventas — Panadería Tortuga
-* **Etapa:** Etapa IV — Consultas y Casos de Uso
-* **Responsable:** Lucas Martín Zárate
-* **Archivo SQL asociado:** `sql/consultas/comprobante_venta.sql`
-* **Dialecto / Estándar:** Microsoft SQL Server (T-SQL) adaptado a **ANSI SQL-92 / ANSI SQL-99**
+- **Proyecto:** Sistema de Gestión de Ventas — Panadería Tortuga
+- **Etapa:** Etapa IV — Consultas y Casos de Uso
+- **Responsable:** Lucas Martín Zárate (Integrante 1 - DNI: 34936602)
+- **Ubicación del documento:** `docs/etapa-04/comprobante-venta.md`
+- **Archivo SQL asociado:** `sql/consultas/comprobante_venta.sql`
+- **Dialecto / Estándar:** Microsoft SQL Server (T-SQL) adaptado a **ANSI SQL-92 / ANSI SQL-99**
 
 ---
 
@@ -22,15 +23,15 @@ En el modelo operativo de una panadería barrial, el punto de venta requiere des
 ## 3. Entidades y Esquema Relacional Involucrado
 La consulta vincula cinco tablas del esquema relacional físico mediante claves primarias y foráneas:
 
-* **`[Venta]` (Tabla Transaccional Cabecera):** Proporciona el número de comprobante (`id_venta`) y las claves foráneas hacia el cliente y el empleado.
-* **`[Detalle_Venta]` (Tabla Asociativa / Transaccional N:M):** Provee las tuplas de renglón con los atributos `cantidad` y `precio_unitario` histórico congelado.
-* **`[Producto]` (Catálogo de Artículos):** Aporta el código identificador (`id_producto`) y la denominación comercial descriptiva (`nombre`).
-* **`[Empleado]` (Entidad Maestra de Personal):** Identifica al operador responsable del despacho mediante su nombre, apellido y turno laboral (`Turno_Laboral`), permitiendo la trazabilidad y arqueo de caja.
-* **`[Cliente]` (Entidad Maestra de Clientes):** Permite asociar los datos personales (`Nombre`, `Apellido`, `DNI_cliente`) cuando el cliente solicita comprobante formal o cuenta corriente.
+- **`[Venta]` (Tabla Transaccional Cabecera):** Proporciona el número de comprobante (`id_venta`) y las claves foráneas hacia el cliente y el empleado.
+- **`[Detalle_Venta]` (Tabla Asociativa / Transaccional N:M):** Provee las tuplas de renglón con los atributos `cantidad` y `precio_unitario` histórico congelado.
+- **`[Producto]` (Catálogo de Artículos):** Aporta el código identificador (`id_producto`) y la denominación comercial descriptiva (`nombre`).
+- **`[Empleado]` (Entidad Maestra de Personal):** Identifica al operador responsable del despacho mediante su nombre, apellido y turno laboral (`Turno_Laboral`), permitiendo la trazabilidad y arqueo de caja.
+- **`[Cliente]` (Entidad Maestra de Clientes):** Permite asociar los datos personales (`Nombre`, `Apellido`, `DNI_cliente`) cuando el cliente solicita comprobante formal o cuenta corriente.
 
 ---
 
-## 4. Script SQL Implementado (Estándar ANSI)
+## 4. Script SQL Implementado (Estándar ANSI Optimizado)
 
 ```sql
 USE Panaderia_Tortuga;
@@ -42,31 +43,27 @@ DECLARE @id_venta_consulta INT = 1001;
 SELECT 
     v.id_venta AS nro_comprobante,
     
-    -- Manejo estándar ANSI de valores nulos (COALESCE)
+    -- Encabezado: Tratamiento estándar ANSI de valores nulos (COALESCE)
     COALESCE(CONCAT(c.Apellido, ', ', c.Nombre), 'Consumidor Final / Anónimo') AS cliente,
     COALESCE(CAST(c.DNI_cliente AS VARCHAR(20)), 'S/D') AS dni_cliente,
     
-    -- Atributos de auditoría de personal
+    -- Encabezado: Atributos de auditoría del personal de despacho
     CONCAT(e.Apellido, ', ', e.Nombre) AS atendido_por,
     e.Turno_Laboral AS turno_empleado,
     
-    -- Renglón del detalle de productos
+    -- Detalle: Renglón de artículos
     p.id_producto AS cod_producto,
     p.nombre AS descripcion_articulo,
     dv.cantidad AS cantidad,
     dv.precio_unitario AS precio_unitario_historico,
     
-    -- Cálculo de subtotal con casteo numérico estándar
-    CAST((dv.cantidad * dv.precio_unitario) AS DECIMAL(12,2)) AS subtotal_renglon,
+    -- Subtotal por renglón con casteo numérico y protección ante nulos
+    CAST((COALESCE(dv.cantidad, 0) * COALESCE(dv.precio_unitario, 0)) AS DECIMAL(12,2)) AS subtotal_renglon,
     
-    -- Subconsulta escalar correlacionada estándar ANSI para el total acumulado
-    (
-        SELECT CAST(SUM(d2.cantidad * d2.precio_unitario) AS DECIMAL(12,2))
-        FROM [Detalle_Venta] AS d2
-        WHERE d2.id_venta = v.id_venta
-    ) AS total_comprobante
+    -- Total acumulado obtenido de la tabla derivada (calculado una sola vez en memoria)
+    tot.total_comprobante
 
--- Declaración explícita de alias con 'AS' en el origen y combinaciones relacionales
+-- Origen relacional y combinaciones explícitas con AS
 FROM [Venta] AS v
 INNER JOIN [Detalle_Venta] AS dv 
     ON v.id_venta = dv.id_venta
@@ -76,5 +73,18 @@ INNER JOIN [Empleado] AS e
     ON v.DNI_empleado = e.DNI_empleado
 LEFT JOIN [Cliente] AS c 
     ON v.DNI_cliente = c.DNI_cliente
-WHERE v.id_venta = @id_venta_consulta;
+
+-- Optimización: Pre-agregación en el FROM que evita re-escanear la tabla fila a fila
+INNER JOIN (
+    SELECT 
+        d2.id_venta, 
+        CAST(SUM(COALESCE(d2.cantidad, 0) * COALESCE(d2.precio_unitario, 0)) AS DECIMAL(12,2)) AS total_comprobante
+    FROM [Detalle_Venta] AS d2
+    WHERE d2.id_venta = @id_venta_consulta
+    GROUP BY d2.id_venta
+) AS tot 
+    ON v.id_venta = tot.id_venta
+
+WHERE v.id_venta = @id_venta_consulta
+ORDER BY p.id_producto ASC;
 GO

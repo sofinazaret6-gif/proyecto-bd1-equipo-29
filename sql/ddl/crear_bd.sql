@@ -2,7 +2,7 @@
 -- PROYECTO: PANADERÍA TORTUGA
 -- ARCHIVO: panaderia_tortuga.sql
 -- DIALECTO: Microsoft SQL Server (T-SQL)
--- DESCRIPCIÓN: Implementación del esquema relacional exacto (DDL + DML) 
+-- DESCRIPCIÓN: Implementación del esquema relacional exacto (DDL + DML) con soporte de ciclo de vida (activo)
 ----------------------------------------------------------------------------------------------------
 USE master;
 GO
@@ -20,10 +20,14 @@ GO
 USE Panaderia_Tortuga;
 GO
 
--- Creación de Tablas Maestras
+-- =================================================================================================
+-- 1: Creación de Tablas Maestras
+-- =================================================================================================
+
 CREATE TABLE [Categoria] (
     id_categoria INT NOT NULL,
     [descripción] VARCHAR(100) NOT NULL,
+    activo BIT NOT NULL CONSTRAINT DF_Categoria_Activo DEFAULT 1,
     CONSTRAINT PK_Categoria PRIMARY KEY (id_categoria),
     CONSTRAINT CK_Categoria_Descripcion CHECK (LEN(TRIM([descripción])) > 0)
 );
@@ -53,6 +57,7 @@ CREATE TABLE [Cliente] (
     [DNI_cliente] INT NOT NULL,
     [Nombre] VARCHAR(100) NOT NULL,
     [Apellido] VARCHAR(100) NOT NULL,
+    activo BIT NOT NULL CONSTRAINT DF_Cliente_Activo DEFAULT 1,
     CONSTRAINT PK_Cliente PRIMARY KEY ([DNI_cliente]),
     CONSTRAINT CK_Cliente_DNI CHECK ([DNI_cliente] > 0)
 );
@@ -63,6 +68,7 @@ CREATE TABLE [Empleado] (
     [Nombre] VARCHAR(100) NOT NULL,
     [Apellido] VARCHAR(100) NOT NULL,
     [Turno_Laboral] VARCHAR(50) NOT NULL,
+    activo BIT NOT NULL CONSTRAINT DF_Empleado_Activo DEFAULT 1,
     CONSTRAINT PK_Empleado PRIMARY KEY ([DNI_empleado]),
     CONSTRAINT CK_Empleado_DNI CHECK ([DNI_empleado] > 0),
     CONSTRAINT CK_Empleado_Turno CHECK (LEN(TRIM([Turno_Laboral])) > 0)
@@ -72,6 +78,7 @@ GO
 CREATE TABLE [MedioDePago] (
     id_medioDePago INT NOT NULL,
     descripcion VARCHAR(50) NOT NULL,
+    activo BIT NOT NULL CONSTRAINT DF_MedioDePago_Activo DEFAULT 1,
     CONSTRAINT PK_MedioDePago PRIMARY KEY (id_medioDePago),
     CONSTRAINT CK_MedioDePago_Descripcion CHECK (LEN(TRIM(descripcion)) > 0)
 );
@@ -82,14 +89,14 @@ CREATE TABLE [Promocion] (
     descripcion VARCHAR(150) NOT NULL,
     fecha_inicio DATE NOT NULL,
     fecha_fin DATE NOT NULL,
+    activo BIT NOT NULL CONSTRAINT DF_Promocion_Activo DEFAULT 1,
     CONSTRAINT PK_Promocion PRIMARY KEY (id_promocion),
     CONSTRAINT CK_Promocion_Fechas CHECK (fecha_fin >= fecha_inicio)
 );
 GO
 
 -- =================================================================================================
---  2: 
--- Creación de Tablas de Segundo Nivel y Producto-Unidad (Producto, Producto-Unidad, Venta)
+-- 2: Creación de Tablas de Segundo Nivel y Producto-Unidad (Producto, Producto-Unidad, Venta)
 -- =================================================================================================
 
 CREATE TABLE [Producto] (
@@ -98,6 +105,7 @@ CREATE TABLE [Producto] (
     precio_unitario DECIMAL(12,2) NOT NULL,
     id_categoria INT NOT NULL,
     id_stock INT NOT NULL,
+    activo BIT NOT NULL CONSTRAINT DF_Producto_Activo DEFAULT 1,
     CONSTRAINT PK_Producto PRIMARY KEY (id_producto),
     CONSTRAINT FK_Producto_Categoria FOREIGN KEY (id_categoria) REFERENCES [Categoria](id_categoria),
     CONSTRAINT FK_Producto_Stock FOREIGN KEY (id_stock) REFERENCES [Stock](id_stock),
@@ -132,12 +140,10 @@ CREATE TABLE [Venta] (
 GO
 
 ALTER TABLE [Venta] ADD [fecha] DATE NOT NULL CONSTRAINT DF_Venta_Fecha DEFAULT CAST(GETDATE() AS DATE);
-
-
+GO
 
 -- =================================================================================================
---  3: 
--- Creación de Tablas de Tercer Nivel (Detalle-Venta, Venta-MedioDePago, Movimiento-Stock, Categoria-Promocion)
+-- 3: Creación de Tablas de Tercer Nivel (Detalle-Venta, Venta-MedioDePago, Movimiento-Stock, Categoria-Promocion)
 -- =================================================================================================
 
 CREATE TABLE [Detalle_Venta] (
@@ -165,7 +171,6 @@ CREATE TABLE [Venta_MedioDePago] (
 );
 GO
 
-
 CREATE TABLE [Movimiento_Stock] (
     [id_movimiento-Stock] INT NOT NULL,
     fecha_hora DATETIME NOT NULL DEFAULT GETDATE(),
@@ -178,7 +183,6 @@ CREATE TABLE [Movimiento_Stock] (
     CONSTRAINT CK_MovimientoStock_Tipo CHECK (UPPER(tipo_movimiento) IN ('INGRESO', 'EGRESO', 'COMPRA', 'VENTA', 'AJUSTE'))
 );
 GO
-
 
 CREATE TABLE [Categoria_Promocion] (
     id_categoriaPromocion INT NOT NULL,

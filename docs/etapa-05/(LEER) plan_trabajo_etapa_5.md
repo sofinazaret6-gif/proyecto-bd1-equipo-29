@@ -33,7 +33,7 @@ Cada integrante tiene a su cargo un componente técnico especializado, debiendo 
 ---
 
 ### 📌 Participante: Integrante 2 (A elección)
-* **Asignado a:** *[Pendiente de selección: Octavio Dorrego / Nicolás Pini / Sofía Ferretti / Kiara Zacarías]*
+* **Asignado a:** * Kiara Zacarías*
 * **Tema Técnico:** **Procedimientos Almacenados (Stored Procedures)**
 * **Objetivo:** Encapsular la lógica del negocio dentro del servidor para reducir tráfico de red, evitar inyecciones SQL y optimizar el plan de ejecución en la gestión de registros.
 * **Entregables:**

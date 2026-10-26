@@ -43,14 +43,14 @@ Se parte del esquema relacional obtenido tras la conversión directa del Diagram
   * Estandarización final de los nombres de relaciones a entidades definitivas del dominio.
 
 ## Paso a Tercera Forma Normal (3FN)
-Regla: Cumplir con 2FN y eliminar las dependencias funcionales transitivas (ningún atributo no clave debe depender de otro atributo no clave: $X \rightarrow Y \rightarrow Z$).
-Acciones realizadas:
-Depuración de Promocion: Se eliminan los atributos transitivos tipoPromocion y Valor, dejando únicamente los datos directos de la promoción (descripcion, fecha_inicio, fecha_fin).
-Estructuración de Producto-Unidad: La relación TIENE se formaliza como Producto-Unidad, asignándole su clave primaria subrogada id_productoUnidad e incorporando el atributo conversión.
-Estandarización formal de nombres: Se formalizan las tablas intermedias y entidades al modelo final del negocio (Detalle-Venta, Producto-Unidad, Categoria-Promocion).
+* **Regla:** Cumplir con 2FN y eliminar las dependencias funcionales transitivas (ningún atributo no clave debe depender de otro atributo no clave: $X \rightarrow Y \rightarrow Z$).
+* **Acciones realizadas:**
+  1. **Depuración de Promoción:** Se eliminan los atributos transitivos `tipoPromocion` y `Valor`, dejando únicamente los datos directos de la promoción (`descripcion`, `fecha_inicio`, `fecha_fin`).
+  2. **Estructuración de Producto-Unidad:** La relación `TIENE` se formaliza como `Producto-Unidad`, asignándole su clave primaria subrogada `id_productoUnidad` e incorporando el atributo `conversión`.
+  3. **Estandarización formal de nombres:** Se formalizan las tablas intermedias y entidades al modelo final del negocio (`Detalle-Venta`, `Producto-Unidad`, `Categoria-Promocion`).
+  4. **Preservación de Ciclo de Vida y 3FN:** Los atributos de estado operativo (`activo BIT`) incorporados en las entidades maestras (`Cliente`, `Empleado`, `Producto`, `Categoria`, `Promocion`, `MedioDePago`) dependen de forma directa, total y exclusiva de sus claves primarias respectivas ($PK \rightarrow activo$), respetando de forma rigurosa la 3FN y habilitando mecanismos de baja lógica sin pérdida de consistencia histórica.
 
 ### Esquema Resultante en 3FN (Modelo Final)
 ![Tercera forma normal](../../imagenes/erdplus%20imagen%203.png "Tercera forma Normal")
 
 Cumple 3FN: El 100% de las tablas del esquema cumple con 1FN, 2FN y 3FN. No existen grupos repetitivos, dependencias parciales ni dependencias transitivas, logrando un modelo relacional íntegro, consistente y libre de redundancias.
-

@@ -67,3 +67,70 @@ END CATCH;
 SELECT 'Venta confirmada' AS Estado, * FROM [Venta] WHERE id_venta = 2001;
 SELECT 'Detalle registrado' AS Estado, * FROM [Detalle_Venta] WHERE id_venta = 2001;
 SELECT 'Stock actualizado' AS Estado, * FROM [Stock] WHERE id_stock = 101;
+
+
+-- =================================================================================================
+-- ESCENARIO 2: DEMOSTRACIÓN DE ATOMICIDAD MEDIANTE ERROR INTENCIONAL (ROLLBACK)
+-- Consigna: Provocar deliberadamente un fallo después de un INSERT y verificar consistencia.
+-- =================================================================================================
+PRINT '>>> INICIANDO ESCENARIO 2: ERROR INTENCIONAL TRAS INSERT (DEMOSTRACIÓN ROLLBACK) <<<';
+
+DECLARE @id_venta_error INT = 2002;
+DECLARE @dni_cliente_err INT = 34936602;
+DECLARE @dni_empleado_err INT = 28456123;
+DECLARE @id_producto_err INT = 1;
+DECLARE @id_stock_err INT = 101;
+DECLARE @cantidad_err DECIMAL(10,2) = 2.00;
+DECLARE @precio_err DECIMAL(12,2) = 2200.00;
+DECLARE @subtotal_err DECIMAL(12,2);
+SET @subtotal_err = CAST((@cantidad_err * @precio_err) AS DECIMAL(12,2));
+
+BEGIN TRY
+    BEGIN TRANSACTION;
+
+    -- 1. Se ejecuta el INSERT de la cabecera en Venta
+    INSERT INTO Venta (id_venta, subtotal, DNI_cliente, DNI_empleado, fecha)
+    VALUES (@id_venta_error, @subtotal_err, @dni_cliente_err, @dni_empleado_err, CAST(CURRENT_TIMESTAMP AS DATE));
+
+    PRINT 'Paso 1: Venta insertada en memoria de transacción (id: 2002).';
+
+    -- 2. ERROR INTENCIONAL PROVOCADO:
+    -- Forzamos una excepción de división por cero inmediatamente después del primer INSERT
+    -- para simular una falla imprevista o caída de red antes de asentar el detalle y el stock.
+    DECLARE @fallo_forzado INT;
+    SET @fallo_forzado = 1 / 0;
+
+    -- Los siguientes pasos no se ejecutarán debido a la interrupción:
+    INSERT INTO [Detalle-Venta] (id_venta, id_producto, cantidad, precio_unitario)
+    VALUES (@id_venta_error, @id_producto_err, @cantidad_err, @precio_err);
+
+    UPDATE Stock
+    SET cantidad_actual = cantidad_actual - @cantidad_err
+    WHERE id_stock = @id_stock_err;
+
+    COMMIT TRANSACTION;
+    PRINT 'Transacción completada (no esperado).';
+END TRY
+BEGIN CATCH
+    -- Captura del error y anulación completa de las operaciones previas
+    IF @@TRANCOUNT > 0
+    BEGIN
+        ROLLBACK TRANSACTION;
+        PRINT 'Excepción capturada con éxito en bloque CATCH.';
+        PRINT 'Código de Error: ' + CAST(ERROR_NUMBER() AS VARCHAR(10));
+        PRINT 'Descripción del Error: ' + ERROR_MESSAGE();
+        PRINT 'Acción ejecutada: ROLLBACK TRANSACTION (Atomicidad demostrada).';
+    END;
+END CATCH;
+
+
+-- =================================================================================================
+-- VERIFICACIÓN EMPÍRICA DE ATOMICIDAD (Comprobación de ausencia de registros parciales)
+-- =================================================================================================
+PRINT '>>> VERIFICACIÓN: Comprobando que la venta 2002 NO existe en la base de datos <<<';
+
+-- Debe devolver 0 filas: el primer INSERT fue revertido íntegramente
+SELECT * FROM Venta WHERE id_venta = 2002;
+
+-- Debe devolver 0 filas:
+SELECT * FROM [Detalle_Venta] WHERE id_venta = 2002;

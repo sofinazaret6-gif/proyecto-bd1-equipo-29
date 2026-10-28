@@ -1,21 +1,4 @@
-----------------------------------------------------------------------------------------------------
--- PROYECTO: SISTEMA DE GESTIÓN COMERCIAL — PANADERÍA TORTUGA
--- ETAPA: Etapa V — Temas Técnicos
--- ARCHIVO: sql/tecnico/indices/02_indices_optimizacion.sql
--- AUTOR: Nicolás Pini (DNI: 46.844.274) - Integrante 5
--- DIALECTO: Microsoft SQL Server (T-SQL)
--- TEMA: Índices y Optimización Física de Consultas (Nonclustered Indexes & Execution Plans)
-----------------------------------------------------------------------------------------------------
--- OBJETIVO DEL SCRIPT:
--- 1. Crear índices No Agrupados (NONCLUSTERED INDEX) sobre columnas críticas del modelo:
---    a) 'DNI_cliente' en tabla [Venta]: Clave Foránea de alta cardinalidad para consultas de clientes.
---    b) 'fecha_hora' en tabla [Movimiento_Stock]: Búsquedas y auditorías por rangos temporales.
--- 2. Aplicar la técnica de Índices Cubiertos mediante la cláusula INCLUDE para evitar Key Lookups.
--- 3. Proporcionar un entorno de prueba representativo (dataset de benchmarking) para evaluación del CBO.
--- 4. Demostrar el impacto empírico analizando el Plan de Ejecución:
---    - Comparativa: 'Index Seek' (Árbol B+) frente a 'Table/Clustered Index Scan' (Barrido secuencial).
---    - Métricas cuantificables de Entrada/Salida mediante SET STATISTICS IO y TIME.
-----------------------------------------------------------------------------------------------------
+
 
 USE Panaderia_Tortuga;
 GO
@@ -25,9 +8,6 @@ GO
 -- =================================================================================================
 
 -- 1.1 ÍNDICE NO AGRUPADO SOBRE CLAVE FORÁNEA: [Venta](DNI_cliente)
--- Justificación: SQL Server no indexa automáticamente las Foreign Keys. Cada búsqueda del historial
--- de compras de un cliente obligaría a un barrido completo de comprobantes.
--- Incluimos 'fecha' y 'subtotal' para transformar la consulta en un Índice Cubierto (Covering Index).
 IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = N'IX_Venta_DNI_cliente' AND object_id = OBJECT_ID(N'dbo.Venta'))
 BEGIN
     CREATE NONCLUSTERED INDEX [IX_Venta_DNI_cliente]
@@ -42,8 +22,6 @@ END
 GO
 
 -- 1.2 ÍNDICE NO AGRUPADO CRONOLÓGICO: [Movimiento_Stock](fecha_hora)
--- Justificación: Las auditorías diarias de caja y controles de merma filtran por rangos cronológicos.
--- Incluimos 'tipo_movimiento', 'cantidad' e 'id_stock' para resolver reportes sin acceder a la tabla base.
 IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = N'IX_MovimientoStock_FechaHora' AND object_id = OBJECT_ID(N'dbo.Movimiento_Stock'))
 BEGIN
     CREATE NONCLUSTERED INDEX [IX_MovimientoStock_FechaHora]
@@ -60,9 +38,7 @@ GO
 -- =================================================================================================
 -- BLOQUE 2: POBLADO REPRESENTATIVO DE PRUEBA (DATASET DE BENCHMARKING)
 -- =================================================================================================
--- Nota Técnica: En tablas de muy pocos registros (< 50 filas), el Optimizador de Consultas (CBO) 
--- prefiere un Scan por costo mínimo de página. Para evidenciar la ganancia real de un Index Seek,
--- poblamos transitoriamente un volumen significativo de registros de prueba si no existen.
+
 
 PRINT '>>> Verificando volumen de datos para demostración de planes de ejecución...';
 

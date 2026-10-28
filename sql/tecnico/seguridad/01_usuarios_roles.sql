@@ -1,20 +1,3 @@
-----------------------------------------------------------------------------------------------------
--- PROYECTO: SISTEMA DE GESTIÓN COMERCIAL — PANADERÍA TORTUGA
--- ETAPA: Etapa V — Temas Técnicos
--- ARCHIVO: sql/tecnico/seguridad/01_usuarios_roles.sql
--- AUTOR: Nicolás Pini (DNI: 46.844.274) - Integrante 5
--- DIALECTO: Microsoft SQL Server (T-SQL)
--- TEMA: Seguridad a Nivel de Base de Datos (Usuarios, Roles y Principio de Menor Privilegio)
-----------------------------------------------------------------------------------------------------
--- OBJETIVO DEL SCRIPT:
--- 1. Crear un LOGIN a nivel de servidor ('login_cajero') y mapear un USER ('cajero_pos') en la BD.
--- 2. Crear un ROL de base de datos específico ('Rol_Cajero') para el puesto de atención en mostrador.
--- 3. Asignar permisos granulares de acuerdo al Principio de Menor Privilegio (PoLP):
---    - Permitir operaciones operativas del cajero (SELECT, INSERT en Venta, Detalle_Venta y Venta_MedioDePago).
---    - Permitir lectura de catálogos necesarios (SELECT en Producto, Cliente, MedioDePago).
---    - Restringir explícitamente acciones de riesgo (DENY DELETE en Detalle_Venta y Venta, DENY UPDATE/DELETE en Producto).
--- 4. Demostrar empíricamente la efectividad de las restricciones mediante simulación de sesión (EXECUTE AS USER).
-----------------------------------------------------------------------------------------------------
 
 USE Panaderia_Tortuga;
 GO

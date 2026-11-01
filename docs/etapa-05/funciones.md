@@ -69,7 +69,8 @@ Se realizan consultas para:
 
 - Obtener el total histórico de compras de cada cliente.
 - Filtrar clientes que tienen compras registradas.
-- Calcular la cantidad de días entre dos fechas.
+- Calcular la duración en días de la vigencia de cada promoción
+  (fn_CalcularDiasPeriodo sobre la tabla Promocion).
 - Consultar productos vendidos durante octubre de 2026.
 - Obtener el resumen de productos vendidos utilizando CROSS APPLY.
 

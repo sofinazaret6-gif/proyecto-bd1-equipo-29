@@ -46,7 +46,7 @@ BEGIN TRY
     WHERE id_stock = @id_stock;
 
     -- Paso 4: Asentar auditoría histórica del egreso
-    INSERT INTO [Movimiento-Stock] ([id_movimiento-Stock], fecha_hora, tipo_movimiento, cantidad, id_stock)
+    INSERT INTO [Movimiento_Stock] ([id_movimiento-Stock], fecha_hora, tipo_movimiento, cantidad, id_stock)
     VALUES (@id_mov_ok, GETDATE(), 'VENTA', @cantidad, @id_stock);
 
     -- Si no hubo excepciones, confirmamos la persistencia en disco
@@ -101,7 +101,7 @@ BEGIN TRY
     SET @fallo_forzado = 1 / 0;
 
     -- Los siguientes pasos no se ejecutarán debido a la interrupción:
-    INSERT INTO [Detalle-Venta] (id_venta, id_producto, cantidad, precio_unitario)
+    INSERT INTO [Detalle_Venta] (id_venta, id_producto, cantidad, precio_unitario)
     VALUES (@id_venta_error, @id_producto_err, @cantidad_err, @precio_err);
 
     UPDATE Stock

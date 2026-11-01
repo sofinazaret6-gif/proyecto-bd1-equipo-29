@@ -112,10 +112,18 @@ GO
 PRINT '>>> DEMO 2: Emisión y guardado de ticket de venta (Operación Permitida para el cajero)...';
 
 -- Asegurar limpieza previa de la venta demo por si quedó de una corrida anterior
+-- El trigger INSTEAD OF DELETE de Venta (sql/tecnico/triggers/01_triggers_auditoria.sql) bloquea
+-- todo borrado; el administrador lo desactiva solo durante esta limpieza y lo reactiva enseguida.
 IF EXISTS (SELECT 1 FROM dbo.[Detalle_Venta] WHERE id_venta = 8999)
     DELETE FROM dbo.[Detalle_Venta] WHERE id_venta = 8999;
 IF EXISTS (SELECT 1 FROM dbo.[Venta] WHERE id_venta = 8999)
+BEGIN
+    IF OBJECT_ID(N'dbo.trg_Bloqueo_Borrado_Ventas', N'TR') IS NOT NULL
+        DISABLE TRIGGER dbo.trg_Bloqueo_Borrado_Ventas ON dbo.[Venta];
     DELETE FROM dbo.[Venta] WHERE id_venta = 8999;
+    IF OBJECT_ID(N'dbo.trg_Bloqueo_Borrado_Ventas', N'TR') IS NOT NULL
+        ENABLE TRIGGER dbo.trg_Bloqueo_Borrado_Ventas ON dbo.[Venta];
+END;
 
 EXECUTE AS USER = 'cajero_pos';
 
@@ -206,9 +214,14 @@ BEGIN
     DELETE FROM dbo.[Detalle_Venta] WHERE id_venta = 8999;
 END;
 
+-- Igual que en la Demo 2: se desactiva temporalmente el trigger de bloqueo de borrado de ventas
 IF EXISTS (SELECT 1 FROM dbo.[Venta] WHERE id_venta = 8999)
 BEGIN
+    IF OBJECT_ID(N'dbo.trg_Bloqueo_Borrado_Ventas', N'TR') IS NOT NULL
+        DISABLE TRIGGER dbo.trg_Bloqueo_Borrado_Ventas ON dbo.[Venta];
     DELETE FROM dbo.[Venta] WHERE id_venta = 8999;
+    IF OBJECT_ID(N'dbo.trg_Bloqueo_Borrado_Ventas', N'TR') IS NOT NULL
+        ENABLE TRIGGER dbo.trg_Bloqueo_Borrado_Ventas ON dbo.[Venta];
 END;
 
 PRINT '=================================================================================';

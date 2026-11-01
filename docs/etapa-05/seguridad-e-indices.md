@@ -58,7 +58,7 @@ Sobre las tablas que no figuran en la matriz el cajero no tiene ningún permiso.
 | 3 | `DELETE FROM Detalle_Venta WHERE id_venta = 8999` | **Bloqueado.** Error 229: *The DELETE permission was denied on the object 'Detalle_Venta'*. |
 | 4 | `UPDATE Producto SET precio_unitario = 10 WHERE id_producto = 1` | **Bloqueado.** Error 229: *The UPDATE permission was denied on the object 'Producto'*. |
 
-Al final del script, el administrador borra la venta de prueba 8999.
+Al final del script, el administrador borra la venta de prueba 8999. Como el trigger `trg_Bloqueo_Borrado_Ventas` (`INSTEAD OF DELETE` sobre `Venta`, ver [triggers.md](triggers.md)) impide cualquier borrado de ventas, la limpieza lo desactiva con `DISABLE TRIGGER` solo durante ese `DELETE` y lo reactiva inmediatamente con `ENABLE TRIGGER`. Así el script se puede ejecutar varias veces sin importar si los triggers ya fueron creados.
 
 `Venta_MedioDePago` tiene `INSERT` habilitado, pero ninguna demo lo prueba.
 

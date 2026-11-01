@@ -3,17 +3,18 @@ USE Panaderia_Tortuga;
 GO
 
 /* =========================================================
-   PRUEBA 1: ANTIGUEDAD DE LOS CLIENTES
+   PRUEBA 1: DURACION EN DIAS DE CADA PROMOCION
+   Usa fn_CalcularDiasPeriodo sobre las fechas de vigencia.
    ========================================================= */
 
 SELECT
-    DNI_cliente,
-    Nombre,
-    Apellido,
-    fechaRegistro,
-    dbo.fn_CalcularAntiguedadCliente(DNI_cliente)
-        AS antiguedad_anios
-FROM dbo.Cliente;
+    id_promocion,
+    descripcion,
+    fecha_inicio,
+    fecha_fin,
+    dbo.fn_CalcularDiasPeriodo(fecha_inicio, fecha_fin)
+        AS duracion_dias
+FROM dbo.Promocion;
 GO
 
 

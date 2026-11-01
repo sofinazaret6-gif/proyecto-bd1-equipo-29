@@ -8,6 +8,7 @@
 ----------------------------------------------------------------------------------------------------
 USE Panaderia_Tortuga;
 
+
 -- =================================================================================================
 -- ESCENARIO 1: TRANSACCIÓN EXITOSA DE VENTA CON DESCUENTO DE STOCK (COMMIT)
 -- Objetivo: Ejecutar una unidad lógica que inserte cabecera de venta, detalle, descuente stock
@@ -24,7 +25,7 @@ DECLARE @id_stock INT = 101;              -- Stock asociado al Pan Francés
 DECLARE @cantidad DECIMAL(10,2) = 5.00;   -- 5 kg de pan
 DECLARE @precio_unitario DECIMAL(12,2) = 2200.00;
 DECLARE @subtotal_calculado DECIMAL(12,2);
-SET @subtotal_calculado = @cantidad * @precio_unitario;
+SET @subtotal_calculado = CAST((@cantidad * @precio_unitario) AS DECIMAL(12,2));
 
 DECLARE @id_mov_ok INT = 100;
 
@@ -32,9 +33,9 @@ BEGIN TRY
     -- Inicio formal de la transacción
     BEGIN TRANSACTION;
 
-    -- Paso 1: Registrar cabecera en Venta
-    INSERT INTO [Venta] (id_venta, subtotal, DNI_cliente, DNI_empleado)
-    VALUES (@id_venta_ok, @subtotal_calculado, @dni_cliente, @dni_empleado);
+    -- Paso 1: Registrar cabecera en Venta explicitando la columna fecha
+    INSERT INTO [Venta] (id_venta, subtotal, DNI_cliente, DNI_empleado, fecha)
+    VALUES (@id_venta_ok, @subtotal_calculado, @dni_cliente, @dni_empleado, CAST(GETDATE() AS DATE));
 
     -- Paso 2: Registrar renglón en Detalle-Venta
     INSERT INTO [Detalle_Venta] (id_venta, id_producto, cantidad, precio_unitario)
@@ -49,12 +50,11 @@ BEGIN TRY
     INSERT INTO [Movimiento_Stock] ([id_movimiento-Stock], fecha_hora, tipo_movimiento, cantidad, id_stock)
     VALUES (@id_mov_ok, GETDATE(), 'VENTA', @cantidad, @id_stock);
 
-    -- Si no hubo excepciones, confirmamos la persistencia en disco
+    -- Confirmación de cambios
     COMMIT TRANSACTION;
     PRINT 'Éxito: Transacción confirmada con COMMIT TRANSACTION.';
 END TRY
 BEGIN CATCH
-    -- Control defensivo: si la transacción quedó abierta ante un error, se revierte
     IF @@TRANCOUNT > 0
     BEGIN
         ROLLBACK TRANSACTION;
@@ -63,10 +63,12 @@ BEGIN CATCH
     PRINT 'Mensaje: ' + ERROR_MESSAGE();
 END CATCH;
 
+
 -- Verificación de estado de datos persistidos
 SELECT 'Venta confirmada' AS Estado, * FROM [Venta] WHERE id_venta = 2001;
 SELECT 'Detalle registrado' AS Estado, * FROM [Detalle_Venta] WHERE id_venta = 2001;
 SELECT 'Stock actualizado' AS Estado, * FROM [Stock] WHERE id_stock = 101;
+SELECT 'Movimiento registrado' AS Estado, * FROM [Movimiento_Stock] WHERE [id_movimiento-Stock] = 100;
 
 
 -- =================================================================================================
@@ -88,23 +90,22 @@ SET @subtotal_err = CAST((@cantidad_err * @precio_err) AS DECIMAL(12,2));
 BEGIN TRY
     BEGIN TRANSACTION;
 
-    -- 1. Se ejecuta el INSERT de la cabecera en Venta
-    INSERT INTO Venta (id_venta, subtotal, DNI_cliente, DNI_empleado, fecha)
-    VALUES (@id_venta_error, @subtotal_err, @dni_cliente_err, @dni_empleado_err, CAST(CURRENT_TIMESTAMP AS DATE));
+    -- Paso 1: Inserción de cabecera en Venta
+    INSERT INTO [Venta] (id_venta, subtotal, DNI_cliente, DNI_empleado, fecha)
+    VALUES (@id_venta_error, @subtotal_err, @dni_cliente_err, @dni_empleado_err, CAST(GETDATE() AS DATE));
 
     PRINT 'Paso 1: Venta insertada en memoria de transacción (id: 2002).';
 
-    -- 2. ERROR INTENCIONAL PROVOCADO:
-    -- Forzamos una excepción de división por cero inmediatamente después del primer INSERT
-    -- para simular una falla imprevista o caída de red antes de asentar el detalle y el stock.
+    -- Paso 2: Error forzado en tiempo de ejecución (división por cero)
+    DECLARE @divisor_cero INT = 0;
     DECLARE @fallo_forzado INT;
-    SET @fallo_forzado = 1 / 0;
+    SET @fallo_forzado = 1 / @divisor_cero;
 
-    -- Los siguientes pasos no se ejecutarán debido a la interrupción:
+    -- Pasos omitidos por el desvío al bloque CATCH
     INSERT INTO [Detalle_Venta] (id_venta, id_producto, cantidad, precio_unitario)
     VALUES (@id_venta_error, @id_producto_err, @cantidad_err, @precio_err);
 
-    UPDATE Stock
+    UPDATE [Stock]
     SET cantidad_actual = cantidad_actual - @cantidad_err
     WHERE id_stock = @id_stock_err;
 
@@ -112,7 +113,6 @@ BEGIN TRY
     PRINT 'Transacción completada (no esperado).';
 END TRY
 BEGIN CATCH
-    -- Captura del error y anulación completa de las operaciones previas
     IF @@TRANCOUNT > 0
     BEGIN
         ROLLBACK TRANSACTION;
@@ -130,7 +130,7 @@ END CATCH;
 PRINT '>>> VERIFICACIÓN: Comprobando que la venta 2002 NO existe en la base de datos <<<';
 
 -- Debe devolver 0 filas: el primer INSERT fue revertido íntegramente
-SELECT * FROM Venta WHERE id_venta = 2002;
+SELECT * FROM [Venta] WHERE id_venta = 2002;
 
 -- Debe devolver 0 filas:
 SELECT * FROM [Detalle_Venta] WHERE id_venta = 2002;

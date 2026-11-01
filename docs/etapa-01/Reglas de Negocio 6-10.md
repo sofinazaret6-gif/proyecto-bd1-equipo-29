@@ -3,8 +3,8 @@
 # RN.06: Identificación de Comprobantes de Venta
 Cada venta genera un único comprobante o ticket que sirve como respaldo de la operación. Este ticket vincula obligatoriamente a un único empleado como responsable de la atención, además de registrar la fecha, hora y el detalle consolidado de los productos y cantidades adquiridas.
 
-## RN.07: Gestión de Compras a Proveedores
-Cada compra debe asociarse obligatoriamente a un único proveedor del catálogo. Una operación de compra puede incluir múltiples artículos, registrando para cada uno el costo de adquisición unitario y el ingreso de las cantidades correspondientes al inventario disponible.
+## RN.07: Reposición de Stock
+Toda reposición de mercadería (producción propia o compra) se registra como un movimiento de ingreso (`INGRESO` o `COMPRA`) sobre la ficha de stock del producto, con su fecha, hora y cantidad, incrementando el inventario disponible. La gestión de proveedores, órdenes de compra y costos de adquisición queda fuera del alcance del sistema.
 
 ## RN.08: Restricción de Stock y Consistencia
 Cada ítem de venta debe validar la existencia de stock disponible para el producto correspondiente. No es posible confirmar una línea de venta si la cantidad solicitada supera el inventario actual registrado en la ficha del producto, manteniendo así la integridad física de las transacciones.

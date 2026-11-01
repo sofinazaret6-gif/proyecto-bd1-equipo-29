@@ -201,5 +201,18 @@ WHERE i.name IN (N'IX_Venta_DNI_cliente', N'IX_MovimientoStock_FechaHora')
 ORDER BY t.name, i.name, ic.key_ordinal, ic.is_included_column;
 GO
 
+-- =================================================================================================
+-- BLOQUE 5: LIMPIEZA DEL DATASET SINTÉTICO
+-- Deja la base como estaba para que las consultas de la Etapa IV y las funciones no vean estos datos.
+-- Se desactiva momentáneamente trg_Bloqueo_Borrado_Ventas, que impide borrar ventas.
+-- =================================================================================================
+
+ALTER TABLE dbo.[Venta] DISABLE TRIGGER ALL;
+DELETE FROM dbo.[Venta] WHERE id_venta BETWEEN 3000 AND 4499;
+ALTER TABLE dbo.[Venta] ENABLE TRIGGER ALL;
+DELETE FROM dbo.[Movimiento_Stock] WHERE [id_movimiento-Stock] BETWEEN 2000 AND 3499;
+PRINT '>>> [OK] Ventas y movimientos sintéticos eliminados.';
+GO
+
 PRINT '>>> [FIN] Demostración de optimización física e índices completada.';
 GO

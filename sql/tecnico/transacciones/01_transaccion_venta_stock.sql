@@ -17,7 +17,8 @@ USE Panaderia_Tortuga;
 PRINT '>>> EJECUTANDO ESCENARIO 1: TRANSACCIÓN DE VENTA EXITOSA <<<';
 
 -- Parámetros de la transacción
-DECLARE @id_venta_ok INT = 2001;
+-- Ids calculados para que el script se pueda volver a ejecutar sin violar la PK
+DECLARE @id_venta_ok INT = (SELECT ISNULL(MAX(id_venta), 0) + 1 FROM [Venta]);
 DECLARE @dni_cliente INT = 34936602;      -- Lucas Zárate
 DECLARE @dni_empleado INT = 28456123;     -- Martín Gómez
 DECLARE @id_producto INT = 1;             -- Pan Francés
@@ -27,7 +28,7 @@ DECLARE @precio_unitario DECIMAL(12,2) = 2200.00;
 DECLARE @subtotal_calculado DECIMAL(12,2);
 SET @subtotal_calculado = CAST((@cantidad * @precio_unitario) AS DECIMAL(12,2));
 
-DECLARE @id_mov_ok INT = 100;
+DECLARE @id_mov_ok INT = (SELECT ISNULL(MAX([id_movimiento-Stock]), 0) + 1 FROM [Movimiento_Stock]);
 
 BEGIN TRY
     -- Inicio formal de la transacción
@@ -65,10 +66,10 @@ END CATCH;
 
 
 -- Verificación de estado de datos persistidos
-SELECT 'Venta confirmada' AS Estado, * FROM [Venta] WHERE id_venta = 2001;
-SELECT 'Detalle registrado' AS Estado, * FROM [Detalle_Venta] WHERE id_venta = 2001;
-SELECT 'Stock actualizado' AS Estado, * FROM [Stock] WHERE id_stock = 101;
-SELECT 'Movimiento registrado' AS Estado, * FROM [Movimiento_Stock] WHERE [id_movimiento-Stock] = 100;
+SELECT 'Venta confirmada' AS Estado, * FROM [Venta] WHERE id_venta = @id_venta_ok;
+SELECT 'Detalle registrado' AS Estado, * FROM [Detalle_Venta] WHERE id_venta = @id_venta_ok;
+SELECT 'Stock actualizado' AS Estado, * FROM [Stock] WHERE id_stock = @id_stock;
+SELECT 'Movimiento registrado' AS Estado, * FROM [Movimiento_Stock] WHERE [id_movimiento-Stock] = @id_mov_ok;
 
 
 -- =================================================================================================
@@ -77,7 +78,7 @@ SELECT 'Movimiento registrado' AS Estado, * FROM [Movimiento_Stock] WHERE [id_mo
 -- =================================================================================================
 PRINT '>>> INICIANDO ESCENARIO 2: ERROR INTENCIONAL TRAS INSERT (DEMOSTRACIÓN ROLLBACK) <<<';
 
-DECLARE @id_venta_error INT = 2002;
+DECLARE @id_venta_error INT = (SELECT ISNULL(MAX(id_venta), 0) + 1 FROM [Venta]);
 DECLARE @dni_cliente_err INT = 34936602;
 DECLARE @dni_empleado_err INT = 28456123;
 DECLARE @id_producto_err INT = 1;
@@ -94,7 +95,7 @@ BEGIN TRY
     INSERT INTO [Venta] (id_venta, subtotal, DNI_cliente, DNI_empleado, fecha)
     VALUES (@id_venta_error, @subtotal_err, @dni_cliente_err, @dni_empleado_err, CAST(GETDATE() AS DATE));
 
-    PRINT 'Paso 1: Venta insertada en memoria de transacción (id: 2002).';
+    PRINT 'Paso 1: Venta insertada en memoria de transacción (id: ' + CAST(@id_venta_error AS VARCHAR(10)) + ').';
 
     -- Paso 2: Error forzado en tiempo de ejecución (división por cero)
     DECLARE @divisor_cero INT = 0;
@@ -127,10 +128,10 @@ END CATCH;
 -- =================================================================================================
 -- VERIFICACIÓN EMPÍRICA DE ATOMICIDAD (Comprobación de ausencia de registros parciales)
 -- =================================================================================================
-PRINT '>>> VERIFICACIÓN: Comprobando que la venta 2002 NO existe en la base de datos <<<';
+PRINT '>>> VERIFICACIÓN: Comprobando que la venta del escenario 2 NO existe en la base de datos <<<';
 
 -- Debe devolver 0 filas: el primer INSERT fue revertido íntegramente
-SELECT * FROM [Venta] WHERE id_venta = 2002;
+SELECT * FROM [Venta] WHERE id_venta = @id_venta_error;
 
 -- Debe devolver 0 filas:
-SELECT * FROM [Detalle_Venta] WHERE id_venta = 2002;
+SELECT * FROM [Detalle_Venta] WHERE id_venta = @id_venta_error;

@@ -4,7 +4,7 @@
 Cada categoría agrupa a múltiples productos, mientras que cada producto pertenece obligatoriamente a una única categoría. Esto asegura que el catálogo esté siempre organizado, permitiendo identificar la unidad de medida específica (kg, unidad o docena) para cada artículo de forma clara.
 
 ## RN.02: Gestión y Control de Stock
-Un producto mantiene una única ficha de control de inventario. A esta ficha le corresponden múltiples movimientos, ya sean ingresos por compras a proveedores o egresos por ventas. El sistema emite una alerta si la cantidad resultante desciende por debajo del umbral mínimo configurado.
+Un producto mantiene una única ficha de control de inventario. A esta ficha le corresponden múltiples movimientos, ya sean ingresos por reposición o egresos por ventas. El sistema emite una alerta si la cantidad resultante desciende por debajo del umbral mínimo configurado.
 
 ## RN.03: Registro de Clientes
 Una venta puede registrarse sin asociar a ningún cliente (venta mostrador anónima); sin embargo, si se registra un cliente, una venta específica queda vinculada a un único cliente. A la inversa, un cliente puede realizar múltiples ventas a lo largo del tiempo, permitiendo su fidelización o cuenta corriente.

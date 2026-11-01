@@ -64,9 +64,9 @@ Esta tabla reúne los accesos directos a todos los entregables requeridos a lo l
 | :---: | :--- | :--- | :--- |
 | **01** | **Introducción y Contexto** | [`docs/etapa-01/Introduccion...md`](docs/etapa-01/Introduccion%20Gestion%20de%20Ventas%20de%20Panaderia.md) | Problemática de panadería de barrio, dinámica de mostrador y objetivos. |
 | **01** | **Justificación del Proyecto** | [`docs/etapa-01/justificacion_Proyecto.md`](docs/etapa-01/justificacion_Proyecto.md) | Análisis de dominio, viabilidad económica y arquitectura relacional. |
-| **01** | **Alcance del Sistema** | [`docs/etapa-01/alcance_del_sistema.md`](docs/etapa-01/alcance_del_sistema.md) | Módulos POS, stock, compras, catálogo y delimitaciones deliberadas. |
+| **01** | **Alcance del Sistema** | [`docs/etapa-01/alcance_del_sistema.md`](docs/etapa-01/alcance_del_sistema.md) | Módulos POS, stock, reposición, catálogo y delimitaciones deliberadas. |
 | **01** | **Reglas de Negocio (1 al 5)** | [`docs/etapa-01/Reglas de Negocio 1-5.md`](docs/etapa-01/Reglas%20de%20Negocio%201-5.md) | Catálogo, stock por movimientos, cliente opcional, precios históricos y pagos mixtos. |
-| **01** | **Reglas de Negocio (6 al 10)**| [`docs/etapa-01/Reglas de Negocio 6-10.md`](docs/etapa-01/Reglas%20de%20Negocio%206-10.md) | Tickets, auditoría de personal, compras, validación de stock y promociones temporales. |
+| **01** | **Reglas de Negocio (6 al 10)**| [`docs/etapa-01/Reglas de Negocio 6-10.md`](docs/etapa-01/Reglas%20de%20Negocio%206-10.md) | Tickets, auditoría de personal, reposición de stock, validación de stock y promociones temporales. |
 | **02** | **DER Borrador Inicial** | [`docs/etapa-02/Der/derInicial.png.png`](docs/etapa-02/Der/derInicial.png.png) | Diagrama conceptual preliminar en notación Peter Chen (ERDPlus). |
 | **02** | **DER Definitivo** | [`docs/etapa-02/Der/DerDefinitivo.jpeg`](docs/etapa-02/Der/DerDefinitivo.jpeg) | Modelo conceptual final con stock, unidades fraccionables y promociones. |
 | **02** | **Memoria de Normalización** | [`docs/etapa-02/normalizacion.md`](docs/etapa-02/normalizacion.md) | Justificación paso a paso del pasaje a 1FN, 2FN y 3FN sin pérdida. |
@@ -113,7 +113,7 @@ Las panaderías de barrio operan bajo un modelo comercial caracterizado por **al
 4. **Integridad de datos:** Un diseño relacional formalmente normalizado en **Tercera Forma Normal (3FN)** sin redundancias ni anomalías de actualización.
 
 ### Alcance del Sistema y Exclusiones
-- **Incluido en el alcance:** Módulo de Punto de Venta (POS) multi-ítem, catálogo con unidades fraccionables y fijas (kg, unidad, docena), control de existencias en tiempo real con alertas de stock mínimo, trazabilidad de compras a proveedores, registro de clientes (opcional para cuentas corrientes y fidelización) y promociones temporales vigentes.
+- **Incluido en el alcance:** Módulo de Punto de Venta (POS) multi-ítem, catálogo con unidades fraccionables y fijas (kg, unidad, docena), control de existencias en tiempo real con alertas de stock mínimo, trazabilidad de reposiciones de stock, registro de clientes (opcional para cuentas corrientes y fidelización) y promociones temporales vigentes.
 - **Fuera de alcance deliberado:** No se incorporan módulos complejos de apertura y cierre de caja por turnos, ya que en comercios familiares la sesión operativa coincide con la jornada comercial diaria.
 
 ---
@@ -134,7 +134,7 @@ Las reglas de negocio que rigen la lógica de la base de datos se encuentran des
 | **RN.04** | **Historial de Precios** | Cada ítem de venta almacena la cantidad y el precio unitario pactado al instante de la venta, garantizando inmutabilidad histórica. | [`Reglas de Negocio 1-5.md`](docs/etapa-01/Reglas%20de%20Negocio%201-5.md) |
 | **RN.05** | **Pagos Combinados** | Una venta puede cancelarse con uno o más medios de pago, desglosando el importe abonado con cada uno. | [`Reglas de Negocio 1-5.md`](docs/etapa-01/Reglas%20de%20Negocio%201-5.md) |
 | **RN.06** | **Comprobantes y Empleados**| Cada venta genera un comprobante con fecha, hora y el empleado responsable de la atención en el mostrador. | [`Reglas de Negocio 6-10.md`](docs/etapa-01/Reglas%20de%20Negocio%206-10.md) |
-| **RN.07** | **Compras a Proveedores** | Las compras se asocian a un proveedor, registrando costo unitario de adquisición y alimentando el inventario. | [`Reglas de Negocio 6-10.md`](docs/etapa-01/Reglas%20de%20Negocio%206-10.md) |
+| **RN.07** | **Reposición de Stock** | Cada reposición se registra como movimiento de ingreso sobre la ficha de stock del producto. Proveedores fuera de alcance. | [`Reglas de Negocio 6-10.md`](docs/etapa-01/Reglas%20de%20Negocio%206-10.md) |
 | **RN.08** | **Validación de Stock** | No es posible confirmar una venta si la cantidad solicitada supera el stock físico disponible en el inventario. | [`Reglas de Negocio 6-10.md`](docs/etapa-01/Reglas%20de%20Negocio%206-10.md) |
 | **RN.09** | **Promociones Temporales** | Las promociones (descuentos, 2x1) aplican a categorías de productos y están sujetas a un período de vigencia (fecha inicio/fin). | [`Reglas de Negocio 6-10.md`](docs/etapa-01/Reglas%20de%20Negocio%206-10.md) |
 | **RN.10** | **Estandarización de Calidad**| Solo los productos que cumplan los estándares de maduración y control de calidad quedan habilitados para su comercialización. | [`Reglas de Negocio 6-10.md`](docs/etapa-01/Reglas%20de%20Negocio%206-10.md) |

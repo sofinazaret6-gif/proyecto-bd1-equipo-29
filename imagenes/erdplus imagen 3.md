@@ -11,6 +11,7 @@ erDiagram
     STOCK ||--o{ MOVIMIENTO_STOCK : registra
     CATEGORIA ||--o{ CATEGORIA_PROMOCION : aplica
     PROMOCION ||--|{ CATEGORIA_PROMOCION : incluye
+    TIPO_PROMOCION ||--o{ PROMOCION : tipifica
     PRODUCTO ||--o{ PRODUCTO_UNIDAD : presenta
     UNIDAD_MEDIDA ||--o{ PRODUCTO_UNIDAD : define
 
@@ -18,6 +19,7 @@ erDiagram
         int DNI_cliente PK
         varchar Nombre
         varchar Apellido
+        bit activo
     }
 
     EMPLEADO {
@@ -25,6 +27,7 @@ erDiagram
         varchar Nombre
         varchar Apellido
         varchar Turno_Laboral
+        bit activo
     }
 
     PROMOCION {
@@ -32,17 +35,26 @@ erDiagram
         varchar descripcion
         date fecha_inicio
         date fecha_fin
+        bit activo
+        int id_tipoPromocion FK
+    }
+
+    TIPO_PROMOCION {
+        int id_tipoPromocion PK
+        varchar descripcion
+        numeric valor
     }
 
     CATEGORIA {
         int id_categoria PK
         varchar descripcion
+        bit activo
     }
 
     STOCK {
         int id_stock PK
-        int cantidad_actual
-        int stock_minimo
+        numeric cantidad_actual
+        numeric stock_minimo
     }
 
     PRODUCTO {
@@ -51,6 +63,7 @@ erDiagram
         numeric precio_unitario
         int id_categoria FK
         int id_stock FK
+        bit activo
     }
 
     PRODUCTO_UNIDAD {
@@ -68,9 +81,9 @@ erDiagram
 
     MOVIMIENTO_STOCK {
         int id_movimiento_Stock PK
-        date fecha_hora
+        datetime fecha_hora
         varchar tipo_movimiento
-        int cantidad
+        numeric cantidad
         int id_stock FK
     }
 
@@ -79,11 +92,13 @@ erDiagram
         numeric subtotal
         int DNI_cliente FK
         int DNI_empleado FK
+        date fecha
+        time hora
     }
 
     DETALLE_VENTA {
         int id_venta PK, FK
-        int cantidad
+        numeric cantidad
         numeric precio_unitario
         int id_producto PK, FK
     }
@@ -91,6 +106,7 @@ erDiagram
     MEDIO_PAGO {
         int id_medioPago PK
         varchar descripcion
+        bit activo
     }
 
     VENTA_MEDIO_PAGO {

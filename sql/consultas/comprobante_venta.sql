@@ -23,6 +23,7 @@ DECLARE @id_venta_consulta INT = 1001;
 SELECT 
     v.id_venta AS nro_comprobante,
     v.fecha AS fecha_venta,
+    v.hora AS hora_venta,
     
     -- Encabezado: Tratamiento estándar ANSI de valores nulos (COALESCE)
     COALESCE(CONCAT(c.Apellido, ', ', c.Nombre), 'Consumidor Final / Anónimo') AS cliente,

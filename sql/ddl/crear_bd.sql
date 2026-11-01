@@ -84,13 +84,26 @@ CREATE TABLE [MedioDePago] (
 );
 GO
 
+-- Surge de la 3FN: tipoPromocion -> valor era una dependencia transitiva dentro de Promocion
+CREATE TABLE [Tipo_Promocion] (
+    id_tipoPromocion INT NOT NULL,
+    descripcion VARCHAR(50) NOT NULL,
+    valor DECIMAL(5,2) NOT NULL, -- porcentaje de descuento
+    CONSTRAINT PK_TipoPromocion PRIMARY KEY (id_tipoPromocion),
+    CONSTRAINT CK_TipoPromocion_Descripcion CHECK (LEN(TRIM(descripcion)) > 0),
+    CONSTRAINT CK_TipoPromocion_Valor CHECK (valor > 0 AND valor <= 100)
+);
+GO
+
 CREATE TABLE [Promocion] (
     id_promocion INT NOT NULL,
     descripcion VARCHAR(150) NOT NULL,
     fecha_inicio DATE NOT NULL,
     fecha_fin DATE NOT NULL,
     activo BIT NOT NULL CONSTRAINT DF_Promocion_Activo DEFAULT 1,
+    id_tipoPromocion INT NULL, -- NULL admitido: sp de alta de promoción no recibe el tipo
     CONSTRAINT PK_Promocion PRIMARY KEY (id_promocion),
+    CONSTRAINT FK_Promocion_TipoPromocion FOREIGN KEY (id_tipoPromocion) REFERENCES [Tipo_Promocion](id_tipoPromocion),
     CONSTRAINT CK_Promocion_Fechas CHECK (fecha_fin >= fecha_inicio)
 );
 GO
@@ -132,14 +145,13 @@ CREATE TABLE [Venta] (
     subtotal DECIMAL(12,2) NOT NULL DEFAULT 0,
     DNI_cliente INT NULL,
     DNI_empleado INT NOT NULL,
+    fecha DATE NOT NULL CONSTRAINT DF_Venta_Fecha DEFAULT CAST(GETDATE() AS DATE),
+    hora TIME(0) NOT NULL CONSTRAINT DF_Venta_Hora DEFAULT CAST(GETDATE() AS TIME(0)),
     CONSTRAINT PK_Venta PRIMARY KEY (id_venta),
     CONSTRAINT FK_Venta_Cliente FOREIGN KEY (DNI_cliente) REFERENCES [Cliente]([DNI_cliente]),
     CONSTRAINT FK_Venta_Empleado FOREIGN KEY (DNI_empleado) REFERENCES [Empleado]([DNI_empleado]),
     CONSTRAINT CK_Venta_Subtotal CHECK (subtotal >= 0)
 );
-GO
-
-ALTER TABLE [Venta] ADD [fecha] DATE NOT NULL CONSTRAINT DF_Venta_Fecha DEFAULT CAST(GETDATE() AS DATE);
 GO
 
 -- =================================================================================================

@@ -88,15 +88,21 @@ INSERT INTO [MedioDePago] (id_medioDePago, descripcion) VALUES
 (7, 'Cheque al Dia'),
 (8, 'Cuenta Corriente Comercial');
 
-INSERT INTO [Promocion] (id_promocion, descripcion, fecha_inicio, fecha_fin) VALUES
-(1, 'Super Descuento Docena de Medialunas', '2026-09-01', '2026-10-31'),
-(2, 'Fin de Semana Dulce en Confiteria', '2026-09-20', '2026-09-30'),
-(3, 'Desayuno Tradicional Panaderia', '2026-10-01', '2026-10-15'),
-(4, 'Semana del Sandwich de Miga', '2026-10-05', '2026-10-20'),
-(5, 'Promo Merienda de Facturas', '2026-10-01', '2026-10-31'),
-(6, 'Descuento Tartas y Postres', '2026-10-08', '2026-10-18'),
-(7, 'Especial Madurados de Temporada', '2026-10-01', '2026-11-15'),
-(8, 'Sabores Salados de la Tarde', '2026-10-10', '2026-10-25');
+INSERT INTO [Tipo_Promocion] (id_tipoPromocion, descripcion, valor) VALUES
+(1, '2x1', 50.00),
+(2, 'Descuento 10%', 10.00),
+(3, 'Descuento 15% por docena', 15.00),
+(4, 'Descuento 20%', 20.00);
+
+INSERT INTO [Promocion] (id_promocion, descripcion, fecha_inicio, fecha_fin, id_tipoPromocion) VALUES
+(1, 'Super Descuento Docena de Medialunas', '2026-09-01', '2026-10-31', 3),
+(2, 'Fin de Semana Dulce en Confiteria', '2026-09-20', '2026-09-30', 4),
+(3, 'Desayuno Tradicional Panaderia', '2026-10-01', '2026-10-15', 2),
+(4, 'Semana del Sandwich de Miga', '2026-10-05', '2026-10-20', 2),
+(5, 'Promo Merienda de Facturas', '2026-10-01', '2026-10-31', 1),
+(6, 'Descuento Tartas y Postres', '2026-10-08', '2026-10-18', 4),
+(7, 'Especial Madurados de Temporada', '2026-10-01', '2026-11-15', 2),
+(8, 'Sabores Salados de la Tarde', '2026-10-10', '2026-10-25', 2);
 
 -- =================================================================================================
 -- 2: Tablas de Segundo Nivel
@@ -170,17 +176,17 @@ INSERT INTO [Movimiento_Stock] ([id_movimiento-Stock], fecha_hora, tipo_movimien
 (24, '2026-10-25 09:00:00', 'VENTA', 1.00, 107),
 (25, '2026-10-28 09:00:00', 'VENTA', 4.00, 110);
 
-INSERT INTO [Venta] (id_venta, subtotal, DNI_cliente, DNI_empleado, fecha) VALUES
-(1001, 11600.00, 34936602, 28456123, '2026-10-01'),
-(1002,  4400.00, NULL,     31789456, '2026-10-05'),
-(1003, 18500.00, 46843173, 28456123, '2026-10-10'),
-(1004,  5202.00, 46717369, 39120485, '2026-10-12'),
-(1005,  9500.00, 29812401, 31789456, '2026-10-14'),
-(1006,  7800.00, NULL,     39120485, '2026-10-18'),
-(1007, 19600.00, 38190544, 28456123, '2026-10-20'),
-(1008,  3800.00, 41552890, 31789456, '2026-10-22'),
-(1009, 14000.00, 33019284, 39120485, '2026-10-25'),
-(1010,  6400.00, 27441902, 28456123, '2026-10-28');
+INSERT INTO [Venta] (id_venta, subtotal, DNI_cliente, DNI_empleado, fecha, hora) VALUES
+(1001, 11600.00, 34936602, 28456123, '2026-10-01', '08:15'),
+(1002,  4400.00, NULL,     31789456, '2026-10-05', '09:40'),
+(1003, 18500.00, 46843173, 28456123, '2026-10-10', '11:05'),
+(1004,  5202.00, 46717369, 39120485, '2026-10-12', '08:50'),
+(1005,  9500.00, 29812401, 31789456, '2026-10-14', '17:20'),
+(1006,  7800.00, NULL,     39120485, '2026-10-18', '10:30'),
+(1007, 19600.00, 38190544, 28456123, '2026-10-20', '12:10'),
+(1008,  3800.00, 41552890, 31789456, '2026-10-22', '18:45'),
+(1009, 14000.00, 33019284, 39120485, '2026-10-25', '09:05'),
+(1010,  6400.00, 27441902, 28456123, '2026-10-28', '16:30');
 
 INSERT INTO [Detalle_Venta] (id_venta, id_producto, cantidad, precio_unitario) VALUES
 (1001, 1, 2.00, 2200.00),

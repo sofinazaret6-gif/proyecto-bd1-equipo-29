@@ -137,7 +137,7 @@ Las reglas de negocio que rigen la lógica de la base de datos se encuentran des
 | **RN.07** | **Reposición de Stock** | Cada reposición se registra como movimiento de ingreso sobre la ficha de stock del producto. Proveedores fuera de alcance. | [`Reglas de Negocio 6-10.md`](docs/etapa-01/Reglas%20de%20Negocio%206-10.md) |
 | **RN.08** | **Validación de Stock** | No es posible confirmar una venta si la cantidad solicitada supera el stock físico disponible en el inventario. | [`Reglas de Negocio 6-10.md`](docs/etapa-01/Reglas%20de%20Negocio%206-10.md) |
 | **RN.09** | **Promociones Temporales** | Las promociones (descuentos, 2x1) aplican a categorías de productos y están sujetas a un período de vigencia (fecha inicio/fin). | [`Reglas de Negocio 6-10.md`](docs/etapa-01/Reglas%20de%20Negocio%206-10.md) |
-| **RN.10** | **Estandarización de Calidad**| Solo los productos que cumplan los estándares de maduración y control de calidad quedan habilitados para su comercialización. | [`Reglas de Negocio 6-10.md`](docs/etapa-01/Reglas%20de%20Negocio%206-10.md) |
+| **RN.10** | **Habilitación de Productos**| Solo los productos activos pueden venderse; los discontinuados se dan de baja lógica (`activo = 0`) conservando su historial. | [`Reglas de Negocio 6-10.md`](docs/etapa-01/Reglas%20de%20Negocio%206-10.md) |
 
 </details>
 

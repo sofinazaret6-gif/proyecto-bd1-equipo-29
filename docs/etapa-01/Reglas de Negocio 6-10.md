@@ -12,5 +12,5 @@ Cada ítem de venta debe validar la existencia de stock disponible para el produ
 ## RN.09: Reglas de Promociones y Descuentos Temporales
 Una promoción comercial (como descuentos por docena o 2x1) puede aplicarse a una o múltiples categorías de productos, y cada categoría puede ser alcanzada por múltiples promociones a lo largo del tiempo. Estas reglas se aplican únicamente dentro de un rango de vigencia definido por una fecha de inicio y una fecha de fin, lo que permite gestionar descuentos temporales de forma dinámica.
 
-## RN.10: Estandarización
-Tras el proceso de horneado, los productos requieren de 3 meses de maduración en condiciones de humedad controlada. Cualquier venta está sujeta al cumplimiento de esos estándares, asegurando que los productos aptos y aprobados estén disponibles a la venta al público.
+## RN.10: Habilitación de Productos para la Venta
+Solo los productos habilitados (activos) pueden venderse. Un producto que se discontinúa o no cumple los controles de calidad se da de baja lógica (`activo = 0`): deja de ofrecerse a la venta pero se conserva en el catálogo para no perder el historial de ventas y movimientos de stock asociados.

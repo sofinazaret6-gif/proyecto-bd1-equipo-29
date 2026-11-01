@@ -34,7 +34,7 @@ SELECT
     CAST(SUM(dv.cantidad * dv.precio_unitario) AS DECIMAL(12,2)) AS total_ventas_facturado,
     
     -- Ticket promedio por comprobante emitido
-    CAST(SUM(dv.cantidad * dv.precio_unitario) / COUNT(v.id_venta) AS DECIMAL(12,2)) AS ticket_promedio
+   CAST(SUM(dv.cantidad * dv.precio_unitario) / COUNT(DISTINCT v.id_venta) AS DECIMAL(12,2)) AS ticket_promedio
 
 FROM Empleado AS e
 INNER JOIN Venta AS v 

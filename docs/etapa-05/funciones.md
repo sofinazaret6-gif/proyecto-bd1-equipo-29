@@ -53,12 +53,7 @@ y Producto.
 
   Contiene la creación de las tres funciones definidas por el usuario.
 
-- sql/tecnico/funciones/02_datos_prueba_funciones.sql
-
-  Contiene modificaciones de fechas de ventas existentes para disponer
-  de datos de prueba en diferentes días de octubre de 2026.
-
-- sql/tecnico/funciones/03_pruebas_funciones.sql
+- sql/tecnico/funciones/02_pruebas_funciones.sql
 
   Contiene consultas SELECT, WHERE y CROSS APPLY para demostrar el
   funcionamiento y la utilización de las funciones.

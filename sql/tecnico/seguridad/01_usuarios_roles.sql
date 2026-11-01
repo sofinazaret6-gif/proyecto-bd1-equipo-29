@@ -59,6 +59,10 @@ GO
 GRANT SELECT, INSERT ON dbo.[Venta] TO [Rol_Cajero];
 GRANT SELECT, INSERT ON dbo.[Detalle_Venta] TO [Rol_Cajero];
 GRANT SELECT, INSERT ON dbo.[Venta_MedioDePago] TO [Rol_Cajero];
+-- Descuento de stock y registro del movimiento al concretar una venta
+GRANT SELECT ON dbo.[Stock] TO [Rol_Cajero];
+GRANT UPDATE ([cantidad_actual]) ON dbo.[Stock] TO [Rol_Cajero];
+GRANT INSERT ON dbo.[Movimiento_Stock] TO [Rol_Cajero];
 
 GRANT SELECT ON dbo.[Producto] TO [Rol_Cajero];
 GRANT SELECT ON dbo.[Cliente] TO [Rol_Cajero];

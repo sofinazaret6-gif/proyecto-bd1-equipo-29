@@ -484,6 +484,13 @@ BEGIN
         THROW 50034, 'La nueva descripción no puede ser vacía.', 1;
     END
 
+    IF EXISTS (SELECT 1 FROM dbo.Categoria
+               WHERE LOWER(TRIM([descripción])) = LOWER(TRIM(@nueva_descripcion))
+                 AND id_categoria <> @id_categoria)
+    BEGIN
+        THROW 50037, 'Ya existe otra categoría con esa denominación.', 1;
+    END
+
     UPDATE dbo.Categoria
     SET [descripción] = TRIM(@nueva_descripcion)
     WHERE id_categoria = @id_categoria;
@@ -711,6 +718,13 @@ BEGIN
         THROW 50054, 'La nueva descripción no puede ser una cadena vacía.', 1;
     END
 
+    IF EXISTS (SELECT 1 FROM dbo.MedioDePago
+               WHERE LOWER(TRIM(descripcion)) = LOWER(TRIM(@nueva_descripcion))
+                 AND id_medioDePago <> @id_medioDePago)
+    BEGIN
+        THROW 50057, 'Ya existe otro medio de pago con esa denominación.', 1;
+    END
+    
     UPDATE dbo.MedioDePago
     SET descripcion = TRIM(@nueva_descripcion)
     WHERE id_medioDePago = @id_medioDePago;
@@ -817,6 +831,9 @@ PRINT CONCAT('✔ [EXITO sp_EliminarClienteLogico] Cliente 34936602 -> Ventas Pr
 
 -- Revertir el cliente a activo para no alterar el dataset de los demás compañeros
 UPDATE dbo.Cliente SET activo = 1 WHERE DNI_cliente = 34936602;
+-- Limpieza del producto de prueba para poder volver a correr la suite
+DELETE FROM dbo.Producto WHERE id_producto = @id_prod_test;
+DELETE FROM dbo.Stock    WHERE id_stock    = @id_stock_test;
 GO
 
 -- =================================================================================================

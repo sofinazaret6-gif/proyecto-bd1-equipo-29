@@ -33,7 +33,7 @@ Cada integrante tiene a su cargo un componente técnico especializado, debiendo 
 ---
 
 ### 📌 Participante: Integrante 2 (A elección)
-* **Asignado a:** ** **Asignado a:** **Kiara Itatí Zacarías** (DNI: 46717369)
+* **Asignado a:** **Kiara Itatí Zacarías** (DNI: 46717369)
 * **Tema Técnico:** **Procedimientos Almacenados (Stored Procedures)**
 * **Objetivo:** Encapsular la lógica del negocio dentro del servidor para reducir tráfico de red, evitar inyecciones SQL y optimizar el plan de ejecución en la gestión de registros.
 * **Entregables:**
@@ -47,7 +47,7 @@ Cada integrante tiene a su cargo un componente técnico especializado, debiendo 
 ---
 
 ### 📌 Participante: Integrante 3 (A elección)
-* **Asignado a:** * **Asignado a:** **Sofía Ferretti** (DNI: 46718162)
+* **Asignado a:**  **Sofía Ferretti** (DNI: 46718162)
 * **Tema Técnico:** **Funciones Almacenadas (UDF - Scalar & Table-Valued)**
 * **Objetivo:** Modularizar cálculos repetitivos del negocio y transformar datos al vuelo sin duplicar lógica en las consultas.
 * **Entregables:**
@@ -63,7 +63,7 @@ Cada integrante tiene a su cargo un componente técnico especializado, debiendo 
 ---
 
 ### 📌 Participante: Integrante 4 (A elección)
-* **Asignado a:** ** **Asignado a:** **Octavio Dorrego** (DNI: 46843173)
+* **Asignado a:** **Octavio Dorrego** (DNI: 46843173)
 * **Tema Técnico:** **Triggers de Auditoría y Control de Integridad**
 * **Objetivo:** Automatizar el registro de trazabilidad histórica ante eventos DML y blindar la base de datos contra borrados accidentales o maliciosos.
 * **Entregables:**
@@ -77,7 +77,7 @@ Cada integrante tiene a su cargo un componente técnico especializado, debiendo 
 ---
 
 ### 📌 Participante: Integrante 5 (A elección)
-* **Asignado a:** * **Asignado a:** **Nicolás Pini** (DNI: 46844274)
+* **Asignado a:**  **Nicolás Pini** (DNI: 46844274)
 * **Tema Técnico:** **Seguridad (Usuarios/Roles) e Índices (Optimización Física)**
 * **Objetivo:** Proteger el acceso a los datos según el principio de mínimo privilegio y optimizar los tiempos de respuesta de las consultas más pesadas mediante estructuras de acceso rápido.
 * **Entregables:**

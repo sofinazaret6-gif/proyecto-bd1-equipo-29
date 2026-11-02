@@ -171,7 +171,7 @@ timeline
 | **02** | **Modelado Conceptual y Lógico** | <kbd>✔ Completada</kbd> | DER Peter Chen, conversión relacional, normalización formal hasta 3FN y diagramas Mermaid. |
 | **03** | **Implementación Física (DDL y DML)**| <kbd>✔ Completada</kbd> | Scripts `crear_bd.sql`, `datos_prueba.sql`, restricciones de integridad y pruebas de consistencia. |
 | **04** | **Consultas SQL y Casos de Uso** | <kbd>✔ Completada</kbd> | Consultas ANSI SQL (comprobante de venta, reportes agregados, consulta avanzada) y mapeo de casos de uso CU-01 a CU-06. |
-| **05** | **Optimización y Cierre Técnico** | <kbd>⏳ Próximamente</kbd> | Vistas de resumen, índices de rendimiento, procedimientos almacenados y conclusiones técnicas del proyecto. |
+| **05** | **Temas Técnicos Avanzados** | <kbd>✔ Completada</kbd> | Transacciones ACID, procedimientos almacenados, funciones definidas por el usuario, triggers de auditoría, seguridad (usuarios/roles) e índices. |
 
 </details>
 
@@ -482,7 +482,7 @@ proyecto-bd1-equipo-29/
 │   ├── 🖼️ erdplus imagen 0.png / 📄 .md            # Esquema lógico inicial (0FN)
 │   ├── 🖼️ erdplus imagen 1.png / 📄 .md            # Esquema en 1FN (gráfico y Mermaid)
 │   ├── 🖼️ erdplus imagen 2.png / 📄 .md            # Esquema en 2FN (gráfico y Mermaid)
-│   └── 🖼️ erdplus imagen 4.png / 📄 .md            # Esquema en 3FN final (gráfico y Mermaid)
+│   └── 🖼️ erdplus imagen 3.png / 📄 .md            # Esquema en 3FN final (gráfico y Mermaid)
 │
 └── 📁 sql/                                         # Código fuente SQL del proyecto
     ├── 📁 ddl/                                     # Definición de datos (Data Definition Language)

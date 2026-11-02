@@ -6,7 +6,7 @@
 - **Materia:** Bases de Datos I — FaCENA (UNNE)
 - **Etapa:** Etapa V — Temas Técnicos
 - **Tema especializado:** Funciones definidas por el usuario (UDF): escalares e Inline Table-Valued
-- **Autor:** Sofía Ferretti  — Integrante 3
+- **Autor:** Sofía Ferretti (DNI: 46.718.162)  — Integrante 3
 - **Fecha:** 01/11/2026
 - **Motor:** Microsoft SQL Server Express (T-SQL)
 - **Scripts asociados:**

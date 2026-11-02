@@ -13,7 +13,7 @@
 [![Etapa 02](https://img.shields.io/badge/Etapa_02-Completada-00ACC1?style=for-the-badge)](docs/etapa-02/)
 [![Etapa 03](https://img.shields.io/badge/Etapa_03-Completada-00ACC1?style=for-the-badge)](docs/etapa-03/)
 [![Etapa 04](https://img.shields.io/badge/Etapa_04-Completada-00ACC1?style=for-the-badge)](docs/etapa-04/)
-
+[![Etapa 05](https://img.shields.io/badge/Etapa_05-Completada-00ACC1?style=for-the-badge)](docs/etapa-05/)
 *Un sistema de base de datos relacional robusto y normalizado en 3FN, implementado en Microsoft SQL Server con scripts DDL, dataset DML de prueba, validaciones transaccionales y consultas analíticas avanzadas de negocio.*
 
 ---
@@ -83,7 +83,12 @@ Esta tabla reúne los accesos directos a todos los entregables requeridos a lo l
 | **04** | **Consulta Avanzada (Clientes VIP)**| [`sql/consultas/consulta_avanzada.sql`](sql/consultas/consulta_avanzada.sql) | Consulta analítica con 3 tablas, agregaciones y filtro restrictivo `HAVING`. |
 | **04** | **Doc. Consulta Avanzada** | [`docs/etapa-04/consulta-avanzada.md`](docs/etapa-04/consulta-avanzada.md) | Análisis de facturación acumulada y segmentación de clientes frecuentes (CU-05). |
 | **04** | **Casos de Uso y Validación Cruzada** | [`docs/etapa-04/casos-uso.md`](docs/etapa-04/casos-uso.md) | Mapeo integral de requerimientos funcionales, CU-01 a CU-06 y verificación cruzada. |
-
+| **05** | **Plan de Trabajo de la Etapa V** | [`docs/etapa-05/(LEER) plan_trabajo_etapa_5.md`](docs/etapa-05/%28LEER%29%20plan_trabajo_etapa_5.md) | Asignación de roles por integrante, requerimientos y estructura de `sql/tecnico/`. |
+| **05** | **Transacciones (ACID)** | [`sql/tecnico/transacciones/01_transaccion_venta_stock.sql`](sql/tecnico/transacciones/01_transaccion_venta_stock.sql) · [`docs/etapa-05/transacciones.md`](docs/etapa-05/transacciones.md) | Venta con descuento de stock en 3 tablas: `COMMIT` y `ROLLBACK` forzado por error intencional. |
+| **05** | **Procedimientos Almacenados** | [`sql/tecnico/procedimientos/01_sp_operaciones_crud.sql`](sql/tecnico/procedimientos/01_sp_operaciones_crud.sql) · [`docs/etapa-05/procedimientos.md`](docs/etapa-05/procedimientos.md) | CRUD con validaciones de negocio (`THROW`) y prueba comparativa de lote. |
+| **05** | **Funciones (UDF)** | [`sql/tecnico/funciones/`](sql/tecnico/funciones/) · [`docs/etapa-05/funciones.md`](docs/etapa-05/funciones.md) | 2 funciones escalares y 1 inline TVF; uso en `SELECT`, `WHERE` y `CROSS APPLY`. |
+| **05** | **Triggers de Auditoría** | [`sql/tecnico/triggers/01_triggers_auditoria.sql`](sql/tecnico/triggers/01_triggers_auditoria.sql) · [`docs/etapa-05/triggers.md`](docs/etapa-05/triggers.md) | Auditoría `AFTER UPDATE, DELETE` y bloqueo `INSTEAD OF DELETE` de ventas. |
+| **05** | **Seguridad e Índices** | [`sql/tecnico/seguridad/01_usuarios_roles.sql`](sql/tecnico/seguridad/01_usuarios_roles.sql) · [`sql/tecnico/indices/02_indices_optimizacion.sql`](sql/tecnico/indices/02_indices_optimizacion.sql) · [`docs/etapa-05/seguridad-e-indices.md`](docs/etapa-05/seguridad-e-indices.md) | Login/usuario/rol con mínimo privilegio (`EXECUTE AS`) e índices no agrupados con comparación de planes. |
 ---
 
 ## 👥 Integrantes del Equipo 29
@@ -153,8 +158,7 @@ timeline
         Etapa 02 : DER Inicial y Definitivo : Normalización 1FN, 2FN y 3FN
         Etapa 03 : Scripts DDL y DML : Restricciones PK, FK, CHECK, UNIQUE : Pruebas Transaccionales
         Etapa 04 : Consultas SQL ANSI : Ticket Consolidado : Informes Agregados : Casos de Uso
-    section En Planificación
-        Etapa 05 : Vistas e Índices : Procedimientos Almacenados / Triggers : Cierre Técnico
+        Etapa 05 : Transacciones ACID : Procedimientos Almacenados : Funciones UDF : Triggers : Seguridad e Índices
 ```
 
 <details open>
@@ -466,13 +470,19 @@ proyecto-bd1-equipo-29/
 │   │   ├── 📄 consulta-avanzada.md                 # Análisis de clientes VIP con cláusula HAVING
 │   │   └── 📄 casos-uso.md                         # Mapeo de casos de uso y verificación cruzada
 │   │
-│   └── 📁 etapa-05/                                # Carpeta para optimización, vistas y cierre técnico
+│   └── 📁 etapa-05/                                # Temas técnicos avanzados (T-SQL)
+│       ├── 📄  plan_trabajo_etapa_5.md             # Plan de trabajo y asignación de roles
+│       ├── 📄 transacciones.md                     # Transacciones y control de concurrencia (ACID)
+│       ├── 📄 procedimientos.md                    # Procedimientos almacenados y lógica en servidor
+│       ├── 📄 funciones.md                         # Funciones definidas por el usuario
+│       ├── 📄 triggers.md                          # Triggers de auditoría y control de integridad
+│       └── 📄 seguridad-e-indices.md               # Usuarios/roles e índices de optimización
 │
 ├── 📁 imagenes/                                    # Recursos gráficos y diagramas Mermaid
 │   ├── 🖼️ erdplus imagen 0.png / 📄 .md            # Esquema lógico inicial (0FN)
 │   ├── 🖼️ erdplus imagen 1.png / 📄 .md            # Esquema en 1FN (gráfico y Mermaid)
 │   ├── 🖼️ erdplus imagen 2.png / 📄 .md            # Esquema en 2FN (gráfico y Mermaid)
-│   └── 🖼️ erdplus imagen 3.png / 📄 .md            # Esquema en 3FN final (gráfico y Mermaid)
+│   └── 🖼️ erdplus imagen 4.png / 📄 .md            # Esquema en 3FN final (gráfico y Mermaid)
 │
 └── 📁 sql/                                         # Código fuente SQL del proyecto
     ├── 📁 ddl/                                     # Definición de datos (Data Definition Language)
@@ -486,7 +496,20 @@ proyecto-bd1-equipo-29/
     │   ├── 📄 informe_ventas.sql                   # Consultas ANSI: ventas por vendedor y categoría
     │   └── 📄 consulta_avanzada.sql                # Consulta ANSI: segmentación con GROUP BY y HAVING
     │
-    └── 📁 tecnico/                                 # Triggers, procedimientos almacenados y vistas (Etapa 05)
+    └── 📁 tecnico/                                 # Mecanismos técnicos avanzados (Etapa 05)
+        ├── 📁 transacciones/
+        │   └── 📄 01_transaccion_venta_stock.sql
+        ├── 📁 procedimientos/
+        │   └── 📄 01_sp_operaciones_crud.sql
+        ├── 📁 funciones/
+        │   ├── 📄 01_funciones_negocio.sql
+        │   └── 📄 02_pruebas_funciones.sql
+        ├── 📁 triggers/
+        │   └── 📄 01_triggers_auditoria.sql
+        ├── 📁 seguridad/
+        │   └── 📄 01_usuarios_roles.sql
+        └── 📁 indices/
+            └── 📄 02_indices_optimizacion.sql
 ```
 
 ---
@@ -518,6 +541,20 @@ Ejecute cualquiera de los scripts analíticos ubicados en [`sql/consultas/`](sql
 - **Reportes por vendedor y categoría:** [`sql/consultas/informe_ventas.sql`](sql/consultas/informe_ventas.sql)
 - **Consulta de clientes VIP:** [`sql/consultas/consulta_avanzada.sql`](sql/consultas/consulta_avanzada.sql)
 
+### 5. Ejecutar los scripts técnicos (Etapa 05)
+Una vez creada y poblada la base (pasos 2 y 3), ejecute los scripts de [`sql/tecnico/`](sql/tecnico/) en este orden. Todos pueden volver a ejecutarse:
+
+| Orden | Script | Qué hace |
+| :---: | :--- | :--- |
+| 1 | `transacciones/01_transaccion_venta_stock.sql` | Venta con descuento de stock (`COMMIT`) y `ROLLBACK` forzado. |
+| 2 | `procedimientos/01_sp_operaciones_crud.sql` | Crea los procedimientos CRUD y ejecuta sus pruebas. |
+| 3 | `funciones/01_funciones_negocio.sql` | Crea las tres funciones definidas por el usuario. |
+| 4 | `funciones/02_pruebas_funciones.sql` | Prueba las funciones (requiere el paso 3). |
+| 5 | `triggers/01_triggers_auditoria.sql` | Crea `Auditoria_Producto` y los triggers de auditoría y bloqueo. |
+| 6 | `seguridad/01_usuarios_roles.sql` | Crea login, usuario y rol de cajero; prueba permisos con `EXECUTE AS`. |
+| 7 | `indices/02_indices_optimizacion.sql` | Crea los índices y compara planes de ejecución. |
+
+> Los scripts 6 y 7 desactivan momentáneamente `trg_Bloqueo_Borrado_Ventas` para limpiar sus datos de prueba, por eso conviene ejecutarlos después del paso 5.
 ---
 
 <div align="center">

@@ -1,4 +1,16 @@
-
+----------------------------------------------------------------------------------------------------
+-- PROYECTO: PANADERÍA TORTUGA
+-- ETAPA: Etapa V - Temas Técnicos
+-- ARCHIVO: sql/tecnico/funciones/02_pruebas_funciones.sql
+-- AUTOR: Sofía Ferretti (DNI: 46718162) - Integrante 3
+-- FECHA: 2026-11-01
+-- DIALECTO: Microsoft SQL Server (T-SQL)
+-- TEMA: Funciones definidas por el usuario (UDF): escalares e Inline Table-Valued
+-- OBJETIVO: Demostrar el consumo de las funciones de 01_funciones_negocio.sql.
+--           Ejecutar después de 01_funciones_negocio.sql.
+-- REQUISITOS CUBIERTOS: Uso en SELECT, en WHERE y con CROSS APPLY.
+--           Las pruebas son de solo lectura (no modifican datos).
+----------------------------------------------------------------------------------------------------
 USE Panaderia_Tortuga;
 GO
 

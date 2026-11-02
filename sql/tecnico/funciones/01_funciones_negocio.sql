@@ -1,4 +1,17 @@
-
+----------------------------------------------------------------------------------------------------
+-- PROYECTO: PANADERÍA TORTUGA
+-- ETAPA: Etapa V - Temas Técnicos
+-- ARCHIVO: sql/tecnico/funciones/01_funciones_negocio.sql
+-- AUTOR: Sofía Ferretti (DNI: 46718162) - Integrante 3
+-- FECHA: 2026-11-01
+-- DIALECTO: Microsoft SQL Server (T-SQL)
+-- TEMA: Funciones definidas por el usuario (UDF): escalares e Inline Table-Valued
+-- OBJETIVO: Modularizar cálculos repetitivos del negocio (total de compras por cliente,
+--           duración de períodos, resumen de ventas por producto) sin duplicar lógica.
+-- REQUISITOS CUBIERTOS: 2 funciones escalares (fn_CalcularTotalComprasCliente,
+--           fn_CalcularDiasPeriodo) + 1 Inline Table-Valued Function
+--           (fn_ResumenProductosVendidos). Script idempotente (CREATE OR ALTER).
+----------------------------------------------------------------------------------------------------
 USE Panaderia_Tortuga;
 GO
 

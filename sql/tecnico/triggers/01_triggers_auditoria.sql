@@ -3,7 +3,7 @@
 -- Tema: Triggers de Auditoría y Control de Integridad
 -- Proyecto: Sistema de Gestión Comercial — Panadería Tortuga
 -- Motor: Microsoft SQL Server Express (T-SQL)
--- Responsable: Octavio Dorrego (Integrante 4)
+-- Responsable: Octavio Dorrego 
 -- Materia: Bases de Datos I — FaCENA (UNNE)
 -----------------------------------------------------------------------------------------
 

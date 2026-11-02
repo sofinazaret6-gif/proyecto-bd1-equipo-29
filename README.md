@@ -206,153 +206,6 @@ El siguiente diagrama ilustra la arquitectura de datos final en **Tercera Forma 
 
 ```mermaid
 erDiagram
-    EMPLEADO ||--o{ VENTA : "registra"
-    CLIENTE ||--o{ VENTA : "asocia"
-    VENTA ||--o{ VENTA_MEDIO_PAGO : "se abona con"
-    MEDIO_PAGO ||--o{ VENTA_MEDIO_PAGO : "incluye"
-    VENTA ||--|{ DETALLE_VENTA : "contiene"
-    PRODUCTO ||--o{ DETALLE_VENTA : "compone"
-    CATEGORIA ||--o{ PRODUCTO : "clasifica"
-    STOCK ||--|| PRODUCTO : "posee"
-    STOCK ||--o{ MOVIMIENTO_STOCK : "registra"
-    CATEGORIA ||--o{ CATEGORIA_PROMOCION : "aplica"
-    PROMOCION ||--|{ CATEGORIA_PROMOCION : "incluye"
-    PRODUCTO ||--o{ PRODUCTO_UNIDAD : "presenta"
-    UNIDAD_MEDIDA ||--o{ PRODUCTO_UNIDAD : "define"
-
-    CLIENTE {
-        int DNI_cliente PK
-        varchar Nombre
-        varchar Apellido
-    }
-
-    EMPLEADO {
-        int DNI_empleado PK
-        varchar Nombre
-        varchar Apellido
-        varchar Turno_Laboral
-    }
-
-    VENTA {
-        int id_venta PK
-        date fecha
-        numeric subtotal
-        int DNI_cliente FK
-        int DNI_empleado FK
-    }
-
-    MEDIO_PAGO {
-        int id_medioPago PK
-        varchar descripcion
-    }
-
-    VENTA_MEDIO_PAGO {
-        int id_venta_MedioPago PK
-        numeric importe
-        int id_venta FK
-        int id_medioPago FK
-    }
-
-    DETALLE_VENTA {
-        int id_venta PK, FK
-        int id_producto PK, FK
-        int cantidad
-        numeric precio_unitario
-    }
-
-    PRODUCTO {
-        int id_producto PK
-        varchar nombre
-        numeric precio_unitario
-        int id_categoria FK
-        int id_stock FK
-    }
-
-    CATEGORIA {
-        int id_categoria PK
-        varchar descripcion
-    }
-
-    STOCK {
-        int id_stock PK
-        numeric cantidad_actual
-        numeric stock_minimo
-    }
-
-    MOVIMIENTO_STOCK {
-        int id_movimiento_Stock PK
-        date fecha_hora
-        varchar tipo_movimiento
-        int cantidad
-        int id_stock FK
-    }
-
-    UNIDAD_MEDIDA {
-        int id_unidadMedida PK
-        varchar descripcion
-        char abreviatura
-    }
-
-    PRODUCTO_UNIDAD {
-        int id_productoUnidad PK
-        numeric conversion
-        int id_producto FK
-        int id_unidadMedida FK
-    }
-
-    PROMOCION {
-        int id_promocion PK
-        varchar descripcion
-        date fecha_inicio
-        date fecha_fin
-    }
-
-    CATEGORIA_PROMOCION {
-        int id_categoriaPromocion PK
-        int id_categoria FK
-        int id_promocion FK
-    }
-```
-
----
-
-### Diccionario del Esquema Relacional
-
-<details>
-<summary><b>🔍 Desplegar descripción detallada de tablas y claves (3FN)</b></summary>
-<br>
-
-| Tabla | Clave Primaria (PK) | Claves Foráneas (FK) | Restricciones Destacadas | Descripción de Propósito |
-| :--- | :--- | :--- | :--- | :--- |
-| **`CLIENTE`** | `DNI_cliente` | — | `CK_Cliente_DNI (DNI > 0)` | Almacena datos de clientes recurrentes para cuenta corriente o fidelización. |
-| **`EMPLEADO`** | `DNI_empleado` | — | `CK_Empleado_Turno` | Personal de mostrador y cajeros con turno asignado (Mañana/Tarde). |
-| **`VENTA`** | `id_venta` | `DNI_cliente`, `DNI_empleado` | `FK_Venta_Empleado`, `FK_Venta_Cliente` | Cabecera del comprobante fiscal, fecha y subtotal monetario. |
-| **`Tipo_Promocion`** | `id_tipoPromocion` | — | `CK_TipoPromocion_Valor (0 < valor <= 100)` | Tipos de promoción y su porcentaje de descuento. |
-| **`Promocion`** | `id_promocion` | `id_tipoPromocion` (opcional) | `CK_Promocion_Fechas (fin >= inicio)` | Ofertas comerciales temporales con fechas de vigencia. |
-| **`MedioDePago`** | `id_medioDePago` | — | `CK_MedioPago_Descripcion` | Catálogo de cobranzas (Efectivo, Débito, Transferencia/QR, Crédito). |
-| **`Venta_MedioDePago`** | `id_venta-MedioDePago` | `id_venta`, `id_medioDePago` | `CK_VentaMedioPago_Importe (> 0)` | Desglose atómico del importe abonado con cada medio de pago por ticket. |
-| **`PRODUCTO`** | `id_producto` | `id_categoria`, `id_stock` | `UQ_Producto_Stock (1:1)` | Artículos del catálogo comercial con su precio de lista actual. |
-| **`DETALLE_VENTA`** | `(id_venta, id_producto)` | `id_venta`, `id_producto` | `CK_DetalleVenta_Cantidad`, `Precio >= 0` | Renglones de venta con cantidad y precio unitario histórico congelado. |
-| **`CATEGORIA`** | `id_categoria` | — | `CK_Categoria_Descripcion` | Familias de artículos (Panadería, Facturería, Confitería, etc.). |
-| **`STOCK`** | `id_stock` | — | `CK_Stock_CantidadActual (>= 0)` | Ficha de existencias físicas y umbral de alerta (stock mínimo). |
-| **`MOVIMIENTO_STOCK`** | `id_movimiento_Stock`| `id_stock` | `CK_MovimientoStock_Tipo (IN...)` | Libro histórico de entradas, mermas y auditoría de inventario. |
-| **`UNIDAD_MEDIDA`** | `id_unidadMedida` | — | `CK_UnidadMedida_Abreviatura` | Catálogo de unidades físicas (kg, unidad, docena, gramo). |
-| **`PRODUCTO_UNIDAD`** | `id_productoUnidad` | `id_producto`, `id_unidadMedida` | `UQ_Producto_UnidadMedida` | Equivalencias y factores de conversión para venta fraccionada o agrupada. |
-| **`PROMOCION`** | `id_promocion` | — | `CK_Promocion_Fechas (fin >= inicio)` | Ofertas comerciales temporales con fechas de vigencia. |
-| **`CATEGORIA_PROMOCION`**| `id_categoriaPromocion`| `id_categoria`, `id_promocion` | `UQ_CategoriaPromocion` | Asignación de promociones comerciales a categorías de productos. |
-
-</details>
-
----
-
-## 🛠️ Etapa 03: Implementación Física (DDL), DML y Validaciones
-
-La Etapa 03 trasladó el modelo normalizado a **Microsoft SQL Server (T-SQL)**, implementando una arquitectura por niveles para asegurar la integridad referencial y prevenir dependencias circulares:
-
-### Jerarquía de Tablas Físicas
-
-```mermaid
-erDiagram
     Empleado ||--o{ Venta : registra
     Cliente |o--o{ Venta : asocia
     Venta ||--o{ Venta_MedioDePago : se_abona_con
@@ -474,6 +327,84 @@ erDiagram
         int id_categoria FK
         int id_promocion FK
     }
+```
+
+---
+
+### Diccionario del Esquema Relacional
+
+<details>
+<summary><b>🔍 Desplegar descripción detallada de tablas y claves (3FN)</b></summary>
+<br>
+
+| Tabla | Clave Primaria (PK) | Claves Foráneas (FK) | Restricciones Destacadas | Descripción de Propósito |
+| :--- | :--- | :--- | :--- | :--- |
+| **`CLIENTE`** | `DNI_cliente` | — | `CK_Cliente_DNI (DNI > 0)` | Almacena datos de clientes recurrentes para cuenta corriente o fidelización. |
+| **`EMPLEADO`** | `DNI_empleado` | — | `CK_Empleado_Turno` | Personal de mostrador y cajeros con turno asignado (Mañana/Tarde). |
+| **`VENTA`** | `id_venta` | `DNI_cliente`, `DNI_empleado` | `FK_Venta_Empleado`, `FK_Venta_Cliente` | Cabecera del comprobante fiscal, fecha y subtotal monetario. |
+| **`Tipo_Promocion`** | `id_tipoPromocion` | — | `CK_TipoPromocion_Valor (0 < valor <= 100)` | Tipos de promoción y su porcentaje de descuento. |
+| **`Promocion`** | `id_promocion` | `id_tipoPromocion` (opcional) | `CK_Promocion_Fechas (fin >= inicio)` | Ofertas comerciales temporales con fechas de vigencia. |
+| **`MedioDePago`** | `id_medioDePago` | — | `CK_MedioPago_Descripcion` | Catálogo de cobranzas (Efectivo, Débito, Transferencia/QR, Crédito). |
+| **`Venta_MedioDePago`** | `id_venta-MedioDePago` | `id_venta`, `id_medioDePago` | `CK_VentaMedioPago_Importe (> 0)` | Desglose atómico del importe abonado con cada medio de pago por ticket. |
+| **`PRODUCTO`** | `id_producto` | `id_categoria`, `id_stock` | `UQ_Producto_Stock (1:1)` | Artículos del catálogo comercial con su precio de lista actual. |
+| **`DETALLE_VENTA`** | `(id_venta, id_producto)` | `id_venta`, `id_producto` | `CK_DetalleVenta_Cantidad`, `Precio >= 0` | Renglones de venta con cantidad y precio unitario histórico congelado. |
+| **`CATEGORIA`** | `id_categoria` | — | `CK_Categoria_Descripcion` | Familias de artículos (Panadería, Facturería, Confitería, etc.). |
+| **`STOCK`** | `id_stock` | — | `CK_Stock_CantidadActual (>= 0)` | Ficha de existencias físicas y umbral de alerta (stock mínimo). |
+| **`MOVIMIENTO_STOCK`** | `id_movimiento_Stock`| `id_stock` | `CK_MovimientoStock_Tipo (IN...)` | Libro histórico de entradas, mermas y auditoría de inventario. |
+| **`UNIDAD_MEDIDA`** | `id_unidadMedida` | — | `CK_UnidadMedida_Abreviatura` | Catálogo de unidades físicas (kg, unidad, docena, gramo). |
+| **`PRODUCTO_UNIDAD`** | `id_productoUnidad` | `id_producto`, `id_unidadMedida` | `UQ_Producto_UnidadMedida` | Equivalencias y factores de conversión para venta fraccionada o agrupada. |
+| **`CATEGORIA_PROMOCION`**| `id_categoriaPromocion`| `id_categoria`, `id_promocion` | `UQ_CategoriaPromocion` | Asignación de promociones comerciales a categorías de productos. |
+
+</details>
+
+---
+
+## 🛠️ Etapa 03: Implementación Física (DDL), DML y Validaciones
+
+La Etapa 03 trasladó el modelo normalizado a **Microsoft SQL Server (T-SQL)**, implementando una arquitectura por niveles para asegurar la integridad referencial y prevenir dependencias circulares:
+
+### Jerarquía de Tablas Físicas
+
+```mermaid
+graph TD
+    subgraph Nivel 1: Tablas Maestras Independientes
+        CAT[Categoria]
+        STK[Stock]
+        UM[Unidad_Medida]
+        CLI[Cliente]
+        EMP[Empleado]
+        MP[MedioDePago]
+        TPR[Tipo_Promocion]
+    end
+
+    subgraph Nivel 2: Tablas de Asociación y Dependientes
+        PROD[Producto]
+        PROD_UM[Producto_Unidad]
+        VNT[Venta]
+        PRM[Promocion]
+    end
+
+    subgraph Nivel 3: Tablas Transaccionales y N:M
+        DET_VNT[Detalle_Venta]
+        VNT_MP[Venta_MedioDePago]
+        MOV_STK[Movimiento_Stock]
+        CAT_PRM[Categoria_Promocion]
+    end
+
+    CAT --> PROD
+    STK --> PROD
+    PROD --> PROD_UM
+    UM --> PROD_UM
+    CLI -.-> VNT
+    EMP --> VNT
+    TPR -.-> PRM
+    VNT --> DET_VNT
+    PROD --> DET_VNT
+    VNT --> VNT_MP
+    MP --> VNT_MP
+    STK --> MOV_STK
+    CAT --> CAT_PRM
+    PRM --> CAT_PRM
 ```
 
 ### Restricciones de Integridad y Reglas CHECK

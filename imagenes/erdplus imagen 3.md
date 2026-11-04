@@ -70,7 +70,7 @@ erDiagram
 
     Categoria {
         int id_categoria PK
-        varchar descripción
+        varchar descripcion
         bit activo
     }
 
@@ -90,7 +90,7 @@ erDiagram
 
     Producto_Unidad {
         int id_productoUnidad PK
-        decimal conversión
+        decimal conversion
         int id_producto FK
         int id_unidadMedida FK
     }

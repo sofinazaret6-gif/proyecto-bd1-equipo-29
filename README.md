@@ -2,19 +2,20 @@
 
 <div align="center">
 
-**Bases de Datos I** | **Facultad / Cátedra de Bases de Datos**  
+**Bases de Datos I** | **FaCENA — Universidad Nacional del Nordeste (UNNE)**  
 **Equipo N° 29** • Ciclo Lectivo 2026
 
-[![Materia](https://img.shields.io/badge/Materia-Bases_de_Datos_I-1E88E5?style=for-the-badge&logo=postgresql&logoColor=white)](https://github.com/sofinazaret6-gif/proyecto-bd1-equipo-29)
+[![Materia](https://img.shields.io/badge/Materia-Bases_de_Datos_I-1E88E5?style=for-the-badge)](https://github.com/sofinazaret6-gif/proyecto-bd1-equipo-29)
 [![Equipo](https://img.shields.io/badge/Equipo-29-2E7D32?style=for-the-badge)](https://github.com/sofinazaret6-gif/proyecto-bd1-equipo-29)
-[![Motor](https://img.shields.io/badge/Motor-MS_SQL_Server_(T--SQL)-CC292B?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)](sql/)
+[![Motor](https://img.shields.io/badge/Motor-SQL_Server_Express_(T--SQL)-CC292B?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)](sql/)
 [![Normalización](https://img.shields.io/badge/Normalización-3FN_Alcanzada-FB8C00?style=for-the-badge)](docs/etapa-02/normalizacion.md)
 [![Etapa 01](https://img.shields.io/badge/Etapa_01-Completada-00ACC1?style=for-the-badge)](docs/etapa-01/)
 [![Etapa 02](https://img.shields.io/badge/Etapa_02-Completada-00ACC1?style=for-the-badge)](docs/etapa-02/)
 [![Etapa 03](https://img.shields.io/badge/Etapa_03-Completada-00ACC1?style=for-the-badge)](docs/etapa-03/)
 [![Etapa 04](https://img.shields.io/badge/Etapa_04-Completada-00ACC1?style=for-the-badge)](docs/etapa-04/)
 [![Etapa 05](https://img.shields.io/badge/Etapa_05-Completada-00ACC1?style=for-the-badge)](docs/etapa-05/)
-*Un sistema de base de datos relacional robusto y normalizado en 3FN, implementado en Microsoft SQL Server con scripts DDL, dataset DML de prueba, validaciones transaccionales y consultas analíticas avanzadas de negocio.*
+
+*Un sistema de base de datos relacional normalizado en 3FN, implementado en Microsoft SQL Server con scripts DDL, dataset DML de prueba, consultas analíticas de negocio y mecanismos técnicos avanzados: transacciones ACID, procedimientos almacenados, funciones, triggers, seguridad por roles e índices.*
 
 ---
 
@@ -22,8 +23,9 @@
 [👥 Integrantes](#-integrantes-del-equipo-29) •
 [🎯 Propuesta](#-sobre-el-proyecto) •
 [📊 Modelo y 3FN](#-modelo-de-datos-y-normalización) •
-[🛠️ Implementación DDL/DML](#-etapa-03-implementación-física-ddl-dml-y-validaciones) •
+[🛠️ Implementación DDL/DML](#️-etapa-03-implementación-física-ddl-dml-y-validaciones) •
 [📈 Consultas y Casos de Uso](#-etapa-04-consultas-sql-y-casos-de-uso-de-negocio) •
+[⚙️ Temas Técnicos](#️-etapa-05-temas-técnicos-avanzados-t-sql) •
 [📂 Archivos](#-estructura-del-repositorio)
 
 ---
@@ -38,21 +40,27 @@
    - [Objetivos Principales](#objetivos-principales)
    - [Alcance del Sistema y Exclusiones](#alcance-del-sistema-y-exclusiones)
 4. [📜 Reglas de Negocio del Dominio (RN.01 a RN.10)](#-reglas-de-negocio-del-dominio)
-5. [🗺️ Hoja de Ruta de Entregas (Etapas 01 a 05)](#-hoja-de-ruta-de-entregas-etapas)
+5. [🗺️ Hoja de Ruta de Entregas (Etapas 01 a 05)](#️-hoja-de-ruta-de-entregas-etapas)
 6. [📊 Modelo de Datos y Normalización (Etapa 02)](#-modelo-de-datos-y-normalización)
    - [Diagramas Entidad-Relación (DER)](#diagramas-entidad-relación-der)
    - [Evolución de Normalización (1FN ➔ 2FN ➔ 3FN)](#evolución-de-normalización-1fn--2fn--3fn)
    - [Diagrama Relacional Definitivo (3FN Interactivo)](#diagrama-relacional-definitivo-3fn-interactivo)
    - [Diccionario del Esquema Relacional](#diccionario-del-esquema-relacional)
-7. [🛠️ Etapa 03: Implementación Física (DDL), DML y Validaciones](#-etapa-03-implementación-física-ddl-dml-y-validaciones)
+7. [🛠️ Etapa 03: Implementación Física (DDL), DML y Validaciones](#️-etapa-03-implementación-física-ddl-dml-y-validaciones)
    - [Jerarquía de Tablas Físicas](#jerarquía-de-tablas-físicas)
    - [Restricciones de Integridad y Reglas CHECK](#restricciones-de-integridad-y-reglas-check)
    - [Pruebas Transaccionales y Verificación de Consistencia](#pruebas-transaccionales-y-verificación-de-consistencia)
 8. [📈 Etapa 04: Consultas SQL y Casos de Uso de Negocio](#-etapa-04-consultas-sql-y-casos-de-uso-de-negocio)
    - [Matriz de Consultas SQL Implementadas](#matriz-de-consultas-sql-implementadas)
    - [Mapeo de Casos de Uso (CU-01 a CU-06)](#mapeo-de-casos-de-uso-del-sistema-comercial)
-9. [📂 Estructura del Repositorio](#-estructura-del-repositorio)
-10. [💻 Instrucciones de Instalación y Ejecución](#-instrucciones-de-instalación-y-ejecución)
+9. [⚙️ Etapa 05: Temas Técnicos Avanzados (T-SQL)](#️-etapa-05-temas-técnicos-avanzados-t-sql)
+   - [Transacciones ACID](#transacciones-acid)
+   - [Procedimientos Almacenados](#procedimientos-almacenados)
+   - [Funciones Definidas por el Usuario](#funciones-definidas-por-el-usuario)
+   - [Triggers de Auditoría y Bloqueo](#triggers-de-auditoría-y-bloqueo)
+   - [Seguridad e Índices](#seguridad-e-índices)
+10. [📂 Estructura del Repositorio](#-estructura-del-repositorio)
+11. [💻 Instrucciones de Instalación y Ejecución](#-instrucciones-de-instalación-y-ejecución)
 
 ---
 
@@ -83,23 +91,25 @@ Esta tabla reúne los accesos directos a todos los entregables requeridos a lo l
 | **04** | **Consulta Avanzada (Clientes VIP)**| [`sql/consultas/consulta_avanzada.sql`](sql/consultas/consulta_avanzada.sql) | Consulta analítica con 3 tablas, agregaciones y filtro restrictivo `HAVING`. |
 | **04** | **Doc. Consulta Avanzada** | [`docs/etapa-04/consulta-avanzada.md`](docs/etapa-04/consulta-avanzada.md) | Análisis de facturación acumulada y segmentación de clientes frecuentes (CU-05). |
 | **04** | **Casos de Uso y Validación Cruzada** | [`docs/etapa-04/casos-uso.md`](docs/etapa-04/casos-uso.md) | Mapeo integral de requerimientos funcionales, CU-01 a CU-06 y verificación cruzada. |
+| **04** | **Organización del Trabajo de la Etapa IV** | [`docs/etapa-04/LEER ANTES DE MODIFICAR.md`](docs/etapa-04/LEER%20ANTES%20DE%20MODIFICAR.md) | Distribución de requerimientos y archivos a cargo de cada integrante. |
 | **05** | **Plan de Trabajo de la Etapa V** | [`docs/etapa-05/(LEER) plan_trabajo_etapa_5.md`](docs/etapa-05/%28LEER%29%20plan_trabajo_etapa_5.md) | Asignación de roles por integrante, requerimientos y estructura de `sql/tecnico/`. |
 | **05** | **Transacciones (ACID)** | [`sql/tecnico/transacciones/01_transaccion_venta_stock.sql`](sql/tecnico/transacciones/01_transaccion_venta_stock.sql) · [`docs/etapa-05/transacciones.md`](docs/etapa-05/transacciones.md) | Venta con descuento de stock en 3 tablas: `COMMIT` y `ROLLBACK` forzado por error intencional. |
 | **05** | **Procedimientos Almacenados** | [`sql/tecnico/procedimientos/01_sp_operaciones_crud.sql`](sql/tecnico/procedimientos/01_sp_operaciones_crud.sql) · [`docs/etapa-05/procedimientos.md`](docs/etapa-05/procedimientos.md) | CRUD con validaciones de negocio (`THROW`) y prueba comparativa de lote. |
 | **05** | **Funciones (UDF)** | [`sql/tecnico/funciones/`](sql/tecnico/funciones/) · [`docs/etapa-05/funciones.md`](docs/etapa-05/funciones.md) | 2 funciones escalares y 1 inline TVF; uso en `SELECT`, `WHERE` y `CROSS APPLY`. |
 | **05** | **Triggers de Auditoría** | [`sql/tecnico/triggers/01_triggers_auditoria.sql`](sql/tecnico/triggers/01_triggers_auditoria.sql) · [`docs/etapa-05/triggers.md`](docs/etapa-05/triggers.md) | Auditoría `AFTER UPDATE, DELETE` y bloqueo `INSTEAD OF DELETE` de ventas. |
-| **05** | **Seguridad e Índices** | [`sql/tecnico/seguridad/01_usuarios_roles.sql`](sql/tecnico/seguridad/01_usuarios_roles.sql) · [`sql/tecnico/indices/02_indices_optimizacion.sql`](sql/tecnico/indices/02_indices_optimizacion.sql) · [`docs/etapa-05/seguridad-e-indices.md`](docs/etapa-05/seguridad-e-indices.md) | Login/usuario/rol con mínimo privilegio (`EXECUTE AS`) e índices no agrupados con comparación de planes. |
+| **05** | **Seguridad e Índices** | [`sql/tecnico/seguridad/01_usuarios_roles.sql`](sql/tecnico/seguridad/01_usuarios_roles.sql) · [`sql/tecnico/indices/02_indices_optimizacion.sql`](sql/tecnico/indices/02_indices_optimizacion.sql) · [`docs/etapa-05/seguridad-e-indices.md`](docs/etapa-05/seguridad-e-indices.md) | Login/usuario/rol con mínimo privilegio (`EXECUTE AS`) e índices no agrupados con comparación de lecturas lógicas. |
+
 ---
 
 ## 👥 Integrantes del Equipo 29
 
-| Integrante | DNI |
-| :--- | :---: |
-| **Kiara Itatí Zacarías** | `46.717.369` |
-| **Sofía Ferretti** | `46.718.162` |
-| **Nicolás Pini** | `46.844.274` |
-| **Lucas Martín Zárate** | `34.936.602` |
-| **Octavio Dorrego** | `46.843.173` |
+| Integrante | DNI | Tema Técnico a cargo (Etapa 05) |
+| :--- | :---: | :--- |
+| **Lucas Martín Zárate** | `34.936.602` | Transacciones y control de concurrencia (ACID) |
+| **Kiara Itatí Zacarías** | `46.717.369` | Procedimientos almacenados |
+| **Sofía Ferretti** | `46.718.162` | Funciones definidas por el usuario (UDF) |
+| **Octavio Dorrego** | `46.843.173` | Triggers de auditoría y control de integridad |
+| **Nicolás Pini** | `46.844.274` | Seguridad (usuarios/roles) e índices |
 
 ---
 
@@ -276,7 +286,7 @@ erDiagram
 
     Categoria {
         int id_categoria PK
-        varchar descripción
+        varchar descripcion
         bit activo
     }
 
@@ -296,7 +306,7 @@ erDiagram
 
     Producto_Unidad {
         int id_productoUnidad PK
-        decimal conversión
+        decimal conversion
         int id_producto FK
         int id_unidadMedida FK
     }
@@ -341,16 +351,16 @@ erDiagram
 | :--- | :--- | :--- | :--- | :--- |
 | **`CLIENTE`** | `DNI_cliente` | — | `CK_Cliente_DNI (DNI > 0)` | Almacena datos de clientes recurrentes para cuenta corriente o fidelización. |
 | **`EMPLEADO`** | `DNI_empleado` | — | `CK_Empleado_Turno` | Personal de mostrador y cajeros con turno asignado (Mañana/Tarde). |
-| **`VENTA`** | `id_venta` | `DNI_cliente`, `DNI_empleado` | `FK_Venta_Empleado`, `FK_Venta_Cliente` | Cabecera del comprobante fiscal, fecha y subtotal monetario. |
+| **`VENTA`** | `id_venta` | `DNI_cliente` (opcional), `DNI_empleado` | `CK_Venta_Subtotal (>= 0)`, `fecha`/`hora` con `DEFAULT` | Cabecera del comprobante fiscal, fecha, hora y subtotal monetario. |
 | **`Tipo_Promocion`** | `id_tipoPromocion` | — | `CK_TipoPromocion_Valor (0 < valor <= 100)` | Tipos de promoción y su porcentaje de descuento. |
 | **`Promocion`** | `id_promocion` | `id_tipoPromocion` (opcional) | `CK_Promocion_Fechas (fin >= inicio)` | Ofertas comerciales temporales con fechas de vigencia. |
 | **`MedioDePago`** | `id_medioDePago` | — | `CK_MedioPago_Descripcion` | Catálogo de cobranzas (Efectivo, Débito, Transferencia/QR, Crédito). |
 | **`Venta_MedioDePago`** | `id_venta-MedioDePago` | `id_venta`, `id_medioDePago` | `CK_VentaMedioPago_Importe (> 0)` | Desglose atómico del importe abonado con cada medio de pago por ticket. |
-| **`PRODUCTO`** | `id_producto` | `id_categoria`, `id_stock` | `UQ_Producto_Stock (1:1)` | Artículos del catálogo comercial con su precio de lista actual. |
+| **`PRODUCTO`** | `id_producto` | `id_categoria`, `id_stock` | `UQ_Producto_Stock (1:1)`, `CK_Producto_PrecioUnitario (> 0)` | Artículos del catálogo comercial con su precio de lista actual. |
 | **`DETALLE_VENTA`** | `(id_venta, id_producto)` | `id_venta`, `id_producto` | `CK_DetalleVenta_Cantidad`, `Precio >= 0` | Renglones de venta con cantidad y precio unitario histórico congelado. |
 | **`CATEGORIA`** | `id_categoria` | — | `CK_Categoria_Descripcion` | Familias de artículos (Panadería, Facturería, Confitería, etc.). |
 | **`STOCK`** | `id_stock` | — | `CK_Stock_CantidadActual (>= 0)` | Ficha de existencias físicas y umbral de alerta (stock mínimo). |
-| **`MOVIMIENTO_STOCK`** | `id_movimiento_Stock`| `id_stock` | `CK_MovimientoStock_Tipo (IN...)` | Libro histórico de entradas, mermas y auditoría de inventario. |
+| **`MOVIMIENTO_STOCK`** | `id_movimiento-Stock`| `id_stock` | `CK_MovimientoStock_Tipo (IN...)`, `cantidad > 0` | Libro histórico de entradas, mermas y auditoría de inventario. |
 | **`UNIDAD_MEDIDA`** | `id_unidadMedida` | — | `CK_UnidadMedida_Abreviatura` | Catálogo de unidades físicas (kg, unidad, docena, gramo). |
 | **`PRODUCTO_UNIDAD`** | `id_productoUnidad` | `id_producto`, `id_unidadMedida` | `UQ_Producto_UnidadMedida` | Equivalencias y factores de conversión para venta fraccionada o agrupada. |
 | **`CATEGORIA_PROMOCION`**| `id_categoriaPromocion`| `id_categoria`, `id_promocion` | `UQ_CategoriaPromocion` | Asignación de promociones comerciales a categorías de productos. |
@@ -414,7 +424,9 @@ graph TD
   - `UQ_Producto_UnidadMedida`: Evita duplicar la misma unidad de medida para un producto.
   - `PK_DetalleVenta (id_venta, id_producto)`: Clave compuesta que impide repetir un artículo en el mismo ticket.
 - **Validaciones de Dominio (`CHECK`):**
-  - No negatividad: `cantidad_actual >= 0`, `stock_minimo >= 0`, `precio_unitario >= 0`, `importe > 0`.
+  - No negatividad: `cantidad_actual >= 0`, `stock_minimo >= 0`, `subtotal >= 0`, precio histórico en `Detalle_Venta >= 0`.
+  - Valores estrictamente positivos: precio de lista en `Producto > 0`, `importe > 0`, `cantidad > 0` (detalle y movimientos), `conversión > 0`, `0 < valor <= 100` en `Tipo_Promocion`.
+  - Fechas coherentes: `fecha_fin >= fecha_inicio` en `Promocion`.
   - Cadenas no vacías: `LEN(TRIM(descripcion)) > 0`.
   - Dominio de movimientos: `UPPER(tipo_movimiento) IN ('INGRESO', 'EGRESO', 'COMPRA', 'VENTA', 'AJUSTE')`.
 
@@ -455,6 +467,49 @@ Documentado en [`docs/etapa-04/casos-uso.md`](docs/etapa-04/casos-uso.md), se mo
 
 ---
 
+## ⚙️ Etapa 05: Temas Técnicos Avanzados (T-SQL)
+
+La Etapa 05 incorpora sobre el esquema mecanismos propios del motor que aportan atomicidad, encapsulamiento, trazabilidad, seguridad y rendimiento. Cada integrante tuvo a su cargo un tema (ver [plan de trabajo](docs/etapa-05/%28LEER%29%20plan_trabajo_etapa_5.md)); todos los scripts están en [`sql/tecnico/`](sql/tecnico/) y cada uno incluye su propio escenario de prueba.
+
+| Tema | Responsable | Objetos creados | Script | Documentación |
+| :--- | :--- | :--- | :--- | :--- |
+| **Transacciones ACID** | Lucas Martín Zárate | — (bloques `BEGIN TRY / BEGIN TRANSACTION / COMMIT / ROLLBACK`) | [`01_transaccion_venta_stock.sql`](sql/tecnico/transacciones/01_transaccion_venta_stock.sql) | [`transacciones.md`](docs/etapa-05/transacciones.md) |
+| **Procedimientos almacenados** | Kiara Itatí Zacarías | 24 procedimientos CRUD (`sp_*`) | [`01_sp_operaciones_crud.sql`](sql/tecnico/procedimientos/01_sp_operaciones_crud.sql) | [`procedimientos.md`](docs/etapa-05/procedimientos.md) |
+| **Funciones (UDF)** | Sofía Ferretti | `fn_CalcularTotalComprasCliente`, `fn_CalcularDiasPeriodo`, `fn_ResumenProductosVendidos` | [`01_funciones_negocio.sql`](sql/tecnico/funciones/01_funciones_negocio.sql) · [`02_pruebas_funciones.sql`](sql/tecnico/funciones/02_pruebas_funciones.sql) | [`funciones.md`](docs/etapa-05/funciones.md) |
+| **Triggers** | Octavio Dorrego | `Auditoria_Producto`, `trg_Auditoria_Producto`, `trg_Bloqueo_Borrado_Ventas` | [`01_triggers_auditoria.sql`](sql/tecnico/triggers/01_triggers_auditoria.sql) | [`triggers.md`](docs/etapa-05/triggers.md) |
+| **Seguridad e índices** | Nicolás Pini | `login_cajero`, `cajero_pos`, `Rol_Cajero`, `IX_Venta_DNI_cliente`, `IX_MovimientoStock_FechaHora` | [`01_usuarios_roles.sql`](sql/tecnico/seguridad/01_usuarios_roles.sql) · [`02_indices_optimizacion.sql`](sql/tecnico/indices/02_indices_optimizacion.sql) | [`seguridad-e-indices.md`](docs/etapa-05/seguridad-e-indices.md) |
+
+### Transacciones ACID
+Una venta afecta cuatro tablas (`Venta`, `Detalle_Venta`, `Stock` y `Movimiento_Stock`) dentro de una única transacción:
+- **Escenario 1 (`COMMIT`):** se registra la venta, su renglón, se descuenta el stock y se deja el movimiento de tipo `'VENTA'`; luego se verifica cada tabla.
+- **Escenario 2 (`ROLLBACK`):** tras insertar la cabecera se fuerza una división por cero; el `CATCH` deshace la transacción y se comprueba que no quedó ninguna fila.
+- Los identificadores se calculan con `ISNULL(MAX(...), 0) + 1`, por lo que el script puede ejecutarse varias veces.
+
+### Procedimientos Almacenados
+- CRUD completo (alta, consulta, modificación y **baja lógica** con `activo = 0`) sobre `Producto`, `Cliente`, `Empleado`, `Categoria`, `Promocion` y `MedioDePago`.
+- Validaciones de negocio con `THROW` y códigos propios (`50001` en adelante) y parámetros `OUTPUT`.
+- `sp_InsertarProducto` crea la ficha de `Stock` y el `Producto` en una misma transacción.
+- **Prueba comparativa de lote:** 100 `INSERT` directos frente a 100 `EXEC` de un procedimiento sobre la tabla temporal `Prueba_Benchmark_SP` (se elimina al terminar).
+
+### Funciones Definidas por el Usuario
+| Función | Tipo | Devuelve |
+| :--- | :--- | :--- |
+| `fn_CalcularTotalComprasCliente(@dni)` | Escalar | Total histórico facturado a un cliente. |
+| `fn_CalcularDiasPeriodo(@desde, @hasta)` | Escalar | Días entre dos fechas (`DATEDIFF`). |
+| `fn_ResumenProductosVendidos(@desde, @hasta)` | Inline TVF | Cantidad e importe vendidos por producto en el período. |
+
+Se prueban en `SELECT`, en filtros `WHERE` y con `CROSS APPLY`.
+
+### Triggers de Auditoría y Bloqueo
+- **`trg_Auditoria_Producto`** (`AFTER UPDATE, DELETE` sobre `Producto`): registra en `Auditoria_Producto` el usuario, la fecha, la acción y el precio anterior/nuevo usando `inserted` y `deleted`.
+- **`trg_Bloqueo_Borrado_Ventas`** (`INSTEAD OF DELETE` sobre `Venta`): impide el borrado físico de comprobantes y lanza un error de severidad 16.
+
+### Seguridad e Índices
+- **Seguridad (mínimo privilegio):** el rol `Rol_Cajero` puede leer el catálogo e insertar ventas, renglones, cobros y movimientos de stock, pero tiene `DENY` sobre el borrado de ventas y la modificación de productos y clientes. Se demuestra con `EXECUTE AS USER = 'cajero_pos'` (error 229 en las operaciones prohibidas).
+- **Índices no agrupados:** `Venta(DNI_cliente)` y `Movimiento_Stock(fecha_hora)`, ambos con columnas `INCLUDE`. Con `SET STATISTICS IO ON` se midió una reducción de lecturas lógicas del **44%** (ventas por cliente) y del **73%** (movimientos por rango de fechas).
+
+---
+
 ## 📂 Estructura del Repositorio
 
 El proyecto mantiene una estructura modular y organizada para facilitar la navegación y corrección:
@@ -483,13 +538,14 @@ proyecto-bd1-equipo-29/
 │   │   └── 📄 pruebas-validaciones.md              # Pruebas transaccionales y de inserción negativa
 │   │
 │   ├── 📁 etapa-04/                                # Consultas SQL y Casos de Uso
+│   │   ├── 📄 LEER ANTES DE MODIFICAR.md           # Distribución interna de tareas de la etapa
 │   │   ├── 📄 comprobante-venta.md                 # Documentación técnica de emisión de factura/ticket
 │   │   ├── 📄 informe-ventas.md                    # Métricas agregadas por vendedor y por categoría
 │   │   ├── 📄 consulta-avanzada.md                 # Análisis de clientes VIP con cláusula HAVING
 │   │   └── 📄 casos-uso.md                         # Mapeo de casos de uso y verificación cruzada
 │   │
 │   └── 📁 etapa-05/                                # Temas técnicos avanzados (T-SQL)
-│       ├── 📄  plan_trabajo_etapa_5.md             # Plan de trabajo y asignación de roles
+│       ├── 📄 (LEER) plan_trabajo_etapa_5.md       # Plan de trabajo y asignación de roles
 │       ├── 📄 transacciones.md                     # Transacciones y control de concurrencia (ACID)
 │       ├── 📄 procedimientos.md                    # Procedimientos almacenados y lógica en servidor
 │       ├── 📄 funciones.md                         # Funciones definidas por el usuario
@@ -500,7 +556,8 @@ proyecto-bd1-equipo-29/
 │   ├── 🖼️ erdplus imagen 0.png / 📄 .md            # Esquema lógico inicial (0FN)
 │   ├── 🖼️ erdplus imagen 1.png / 📄 .md            # Esquema en 1FN (gráfico y Mermaid)
 │   ├── 🖼️ erdplus imagen 2.png / 📄 .md            # Esquema en 2FN (gráfico y Mermaid)
-│   └── 🖼️ erdplus imagen 3.png / 📄 .md            # Esquema en 3FN final (gráfico y Mermaid)
+│   ├── 🖼️ erdplus imagen 3.png / 📄 .md            # Esquema en 3FN final (gráfico y Mermaid)
+│   └── 📄 erdplus imagen 3(desact).md              # Versión anterior (desactualizada) del Mermaid 3FN
 │
 └── 📁 sql/                                         # Código fuente SQL del proyecto
     ├── 📁 ddl/                                     # Definición de datos (Data Definition Language)
@@ -516,25 +573,25 @@ proyecto-bd1-equipo-29/
     │
     └── 📁 tecnico/                                 # Mecanismos técnicos avanzados (Etapa 05)
         ├── 📁 transacciones/
-        │   └── 📄 01_transaccion_venta_stock.sql
+        │   └── 📄 01_transaccion_venta_stock.sql   # Venta + stock con COMMIT y ROLLBACK forzado
         ├── 📁 procedimientos/
-        │   └── 📄 01_sp_operaciones_crud.sql
+        │   └── 📄 01_sp_operaciones_crud.sql       # 24 SP CRUD + benchmark de lote
         ├── 📁 funciones/
-        │   ├── 📄 01_funciones_negocio.sql
-        │   └── 📄 02_pruebas_funciones.sql
+        │   ├── 📄 01_funciones_negocio.sql         # 2 funciones escalares + 1 inline TVF
+        │   └── 📄 02_pruebas_funciones.sql         # Uso en SELECT, WHERE y CROSS APPLY
         ├── 📁 triggers/
-        │   └── 📄 01_triggers_auditoria.sql
+        │   └── 📄 01_triggers_auditoria.sql        # Auditoría de Producto y bloqueo de borrado de ventas
         ├── 📁 seguridad/
-        │   └── 📄 01_usuarios_roles.sql
+        │   └── 📄 01_usuarios_roles.sql            # Login, usuario y Rol_Cajero
         └── 📁 indices/
-            └── 📄 02_indices_optimizacion.sql
+            └── 📄 02_indices_optimizacion.sql      # Índices no agrupados y comparación de lecturas
 ```
 
 ---
 
 ## 💻 Instrucciones de Instalación y Ejecución
 
-Para reproducir y probar la base de datos completa de forma local utilizando **Microsoft SQL Server** (vía SQL Server Management Studio - SSMS o Azure Data Studio):
+Para reproducir y probar la base de datos completa de forma local utilizando **Microsoft SQL Server** (Express o superior, vía SQL Server Management Studio - SSMS o Azure Data Studio). El script de seguridad crea un `LOGIN`, por lo que requiere un usuario con permisos de administrador del servidor.
 
 ### 1. Clonar el repositorio
 ```bash
@@ -573,6 +630,9 @@ Una vez creada y poblada la base (pasos 2 y 3), ejecute los scripts de [`sql/tec
 | 7 | `indices/02_indices_optimizacion.sql` | Crea los índices y compara planes de ejecución. |
 
 > Los scripts 6 y 7 desactivan momentáneamente `trg_Bloqueo_Borrado_Ventas` para limpiar sus datos de prueba, por eso conviene ejecutarlos después del paso 5.
+
+> **Atención:** el script de índices carga 1.500 ventas (ids 3000–4499) y 1.500 movimientos de stock sintéticos que **no se eliminan**. Para volver al dataset original antes de repetir las consultas de la Etapa 04, ejecute nuevamente `sql/dml/datos_prueba.sql`.
+
 ---
 
 <div align="center">
